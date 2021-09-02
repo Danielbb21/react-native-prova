@@ -1,20 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import styled from "styled-components/native";
+
 import Authentication from "./Pages/Authentication";
-const StyledView = styled.View`
-  background-color: papayawhip;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`
+
 export default function App() {
   return (
-    <StyledView>
+    <View style = {styles.container}>
       <Authentication />
       <StatusBar style="auto" />
-    </StyledView>
+    </View>
   );
 }
 

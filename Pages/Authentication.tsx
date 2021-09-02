@@ -1,13 +1,18 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import Logo from '../Components/Logo'
+import { colors } from '../utils'
+const {BACKGOUND_COLOR} = colors;
 
 const Authentication = () => {
     return (
-        <View>
-            <Logo />
-        </View>
+      
+            <Logo title = 'Authentication'>
+                
+            </Logo>
+        
     )
 }
+
 
 export default Authentication
