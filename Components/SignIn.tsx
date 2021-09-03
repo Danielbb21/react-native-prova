@@ -66,7 +66,7 @@ const SignIn = () => {
           onPress={showPasswordHandler}
         />
       </View>
-      <Text style={styles.forgetText} onPress={() => console.log("teste")}>
+      <Text style={styles.forgetText} onPress={() =>navigation.navigate('Reset')}>
         I forget my password
       </Text>
       <TouchableOpacity style={styles.signInButton}>

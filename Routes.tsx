@@ -6,10 +6,11 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import Authentication from "./Pages/Authentication";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Logo from "./Components/Logo";
+import ResetPassword from "./Pages/ResetPassword";
 
 export type RootStackParamList = {
   Home: undefined;
-  
+  Reset: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ export const Routes = () => {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Authentication} />
+      <Stack.Screen name="Reset" component={ResetPassword} />
       
     </Stack.Navigator>
   );
