@@ -22,14 +22,14 @@ const Logo: React.FC<LogoProps> = (props) => {
 const styles = StyleSheet.create({
   logoText: {
     fontSize: 44,
-
+    
     width: "20%",
     fontWeight: "bold",
     fontStyle: "italic",
     color: PRIMARY_COLOR,
-    borderBottomColor: BORDER_COLOR,
     borderBottomWidth: 7,
     paddingBottom: 4,
+    borderBottomColor: BORDER_COLOR,
   },
   container: {
     flex: 1,

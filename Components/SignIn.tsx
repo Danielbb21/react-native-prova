@@ -1,22 +1,34 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
-import {RootStackParamList} from '../Routes';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { RootStackParamList } from "../Routes";
 
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { StackNavigationProp } from "@react-navigation/stack";
-type authScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
+import { colors } from "../utils/index";
+
+const { BORDER_COLOR, PRIMARY_COLOR } = colors;
+type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
+
 const SignIn = () => {
   const [icon, setIcon] = useState<string>("eye-slash");
   const [hidePassword, setHidePassword] = useState<boolean>(true);
   const navigation = useNavigation<authScreenProp>();
-  console.log('Nav2', navigation);
+  
   const showPasswordHandler = () => {
     icon !== "eye-slash"
       ? (setIcon("eye-slash"), setHidePassword(false))
       : (setIcon("eye"), setHidePassword(true));
   };
+
   return (
+    <View style = {{alignItems: 'center'}}>
     <View style={styles.main}>
       <TextInput
         autoCompleteType="email"
@@ -54,7 +66,26 @@ const SignIn = () => {
           onPress={showPasswordHandler}
         />
       </View>
-      <Text style={styles.forgetText} onPress={() => console.log('teste')}>I forget my password</Text>
+      <Text style={styles.forgetText} onPress={() => console.log("teste")}>
+        I forget my password
+      </Text>
+      <TouchableOpacity style={styles.signInButton}>
+        <View style={styles.SignInText}>
+          <View style ={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{ fontSize: 30, color: BORDER_COLOR, marginRight: 10, fontWeight: 'bold', fontStyle: 'italic' }}>Log In</Text>
+            <Icon name="arrow-right" size={25} color={BORDER_COLOR} />
+          </View>
+        </View>
+      </TouchableOpacity>
+    </View>
+    <TouchableOpacity style={styles.signInButton}>
+        <View style={styles.SignInText}>
+          <View style ={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{ fontSize: 30, color: PRIMARY_COLOR, marginRight: 10, fontWeight: 'bold', fontStyle: 'italic' }}>Sign Up</Text>
+            <Icon name="arrow-right" size={25} color={PRIMARY_COLOR} />
+          </View>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -92,5 +123,17 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     marginTop: 20,
     marginRight: 30,
+  },
+  signInButton: {
+    height: 100,
+    
+    width: "100%",
+  },
+  SignInText: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: "100%",
+
+    justifyContent: "center",
   },
 });
