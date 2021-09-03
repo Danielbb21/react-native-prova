@@ -84,7 +84,7 @@ const SignIn = () => {
       });
     }
     cleanEmail();
-    cleanPassword()
+    cleanPassword();
   };
   return (
     <View style={{ alignItems: "center" }}>
