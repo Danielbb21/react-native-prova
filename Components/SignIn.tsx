@@ -17,14 +17,14 @@ const { BORDER_COLOR, PRIMARY_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 
 const SignIn = () => {
-  const [icon, setIcon] = useState<string>("eye-slash");
+  const icon = "eye";
   const [hidePassword, setHidePassword] = useState<boolean>(true);
   const navigation = useNavigation<authScreenProp>();
-  
+  const [color, setColor] = useState<string>('#C1C1C1');
   const showPasswordHandler = () => {
-    icon !== "eye-slash"
-      ? (setIcon("eye-slash"), setHidePassword(false))
-      : (setIcon("eye"), setHidePassword(true));
+    color !== "#B5C401"
+      ? (setColor('#B5C401'), setHidePassword(false))
+      : (setColor('#C1C1C1'), setHidePassword(true));
   };
 
   return (
@@ -61,7 +61,7 @@ const SignIn = () => {
         <Icon
           name={icon}
           size={20}
-          color="#C1C1C1"
+          color= {color}
           style={{ padding: 31 }}
           onPress={showPasswordHandler}
         />
