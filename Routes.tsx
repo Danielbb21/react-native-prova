@@ -7,10 +7,12 @@ import Authentication from "./Pages/Authentication";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Logo from "./Components/Logo";
 import ResetPassword from "./Pages/ResetPassword";
+import Registration from "./Pages/Registration";
 
 export type RootStackParamList = {
   Home: undefined;
   Reset: undefined;
+  Registration: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +26,7 @@ export const Routes = () => {
     >
       <Stack.Screen name="Home" component={Authentication} />
       <Stack.Screen name="Reset" component={ResetPassword} />
+      <Stack.Screen name="Registration" component={Registration} />
       
     </Stack.Navigator>
   );

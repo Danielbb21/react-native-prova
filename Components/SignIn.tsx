@@ -78,7 +78,7 @@ const SignIn = () => {
         </View>
       </TouchableOpacity>
     </View>
-    <TouchableOpacity style={styles.signInButton}>
+    <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('Registration')}>
         <View style={styles.SignInText}>
           <View style ={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <Text style={{ fontSize: 30, color: PRIMARY_COLOR, marginRight: 10, fontWeight: 'bold', fontStyle: 'italic' }}>Sign Up</Text>

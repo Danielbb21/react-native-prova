@@ -16,14 +16,27 @@ import { colors } from "../utils/index";
 const { BORDER_COLOR, PRIMARY_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 
-const Reset = () => {
-
+const Register = () => {
+    const [icon, setIcon] = useState<string>("eye-slash");
+    const [hidePassword, setHidePassword] = useState<boolean>(true);
     const navigation = useNavigation<authScreenProp>();
-
+    
+    const showPasswordHandler = () => {
+      icon !== "eye-slash"
+        ? (setIcon("eye-slash"), setHidePassword(false))
+        : (setIcon("eye"), setHidePassword(true));
+    };
   
   return (
     <View style={{ alignItems: "center", justifyContent: "space-between" }}>
       <View style={styles.main}>
+        <TextInput
+          autoCompleteType="name"
+          textAlign="left"
+          textContentType="name"
+          style={styles.mainInput}
+          placeholder="Name"
+        ></TextInput>
         <TextInput
           autoCompleteType="email"
           textAlign="left"
@@ -41,6 +54,35 @@ const Reset = () => {
             justifyContent: "space-between",
           }}
         ></View>
+         <View
+        style={{
+          width: "100%",
+          flexDirection: "row",
+          alignItems: "center",
+          borderBottomColor: "#DDDDDD",
+          borderBottomWidth: 1,
+          justifyContent: "space-between",
+        }}
+      >
+        <TextInput
+          placeholder="Password"
+          textContentType="password"
+          secureTextEntry={hidePassword} //we pass secure component to identify its password
+          style={{
+            ...styles.mainInput,
+            borderBottomWidth: 0,
+            overflow: "hidden",
+            maxWidth: "80%",
+          }} //give custom styles
+        ></TextInput>
+        <Icon
+          name={icon}
+          size={20}
+          color="#C1C1C1"
+          style={{ padding: 31 }}
+          onPress={showPasswordHandler}
+        />
+      </View>
 
         <TouchableOpacity style={styles.signInButton}>
           <View style={styles.SignInText}>
@@ -49,7 +91,7 @@ const Reset = () => {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                marginBottom: 20
+                marginBottom: 30
               }}
             >
               <Text
@@ -61,14 +103,14 @@ const Reset = () => {
                   fontStyle: "italic",
                 }}
               >
-                Send link
+                Register
               </Text>
               <Icon name="arrow-right" size={25} color={BORDER_COLOR} />
             </View>
           </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.signInButton} onPress = {() => navigation.navigate('Home')}>
+      <TouchableOpacity style={styles.signInButton} onPress ={() => navigation.navigate('Home')}>
         <View style={styles.SignInText}>
           <View
             style={{
@@ -92,38 +134,15 @@ const Reset = () => {
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signInButton} onPress = {() => navigation.navigate('Registration')}>
-        <View style={styles.SignInText}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 30,
-                color: PRIMARY_COLOR,
-                marginRight: 10,
-                fontWeight: "bold",
-                fontStyle: "italic",
-              }}
-            >
-              Sign Up
-            </Text>
-            <Icon name="arrow-right" size={25} color={PRIMARY_COLOR} />
-          </View>
-        </View>
-      </TouchableOpacity>
+   
     </View>
   );
 };
 
-export default Reset;
+export default Register;
 const styles = StyleSheet.create({
   main: {
-    height: 143,
+    height: 293,
     width: 306,
     backgroundColor: "#FFFFFF",
     borderColor: "#DDDDDD",
