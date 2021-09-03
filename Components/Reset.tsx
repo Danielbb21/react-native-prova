@@ -12,6 +12,8 @@ import { RootStackParamList } from "../Routes";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../utils/index";
+import useForm from "../hooks/use-form";
+import Toast from "react-native-toast-message";
 
 const { BORDER_COLOR, PRIMARY_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
@@ -19,14 +21,40 @@ type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 const Reset = () => {
 
     const navigation = useNavigation<authScreenProp>();
-
+    const {
+      value: enteredEmail,
+      changeValueHandler: changeEmailHandler,
+      hasError: emailError,
+      isValid: emailIsValid,
+      cleanField: cleanEmail
+    } = useForm((value) =>
+      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
+    );
   
+    const formIsValid = emailIsValid;
+
+    const resetPasswordSubmit = () =>{
+      if(!formIsValid){
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Email is invalid",
+          visibilityTime: 1500,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+      }
+      cleanEmail();
+    }
   return (
     <View style={{ alignItems: "center", justifyContent: "space-between" }}>
       <View style={styles.main}>
         <TextInput
           autoCompleteType="email"
           textAlign="left"
+          value = {enteredEmail}
+          onChange = {changeEmailHandler}
           textContentType="emailAddress"
           style={styles.mainInput}
           placeholder="Email"
@@ -42,7 +70,7 @@ const Reset = () => {
           }}
         ></View>
 
-        <TouchableOpacity style={styles.signInButton}>
+        <TouchableOpacity style={styles.signInButton} onPress = {resetPasswordSubmit}>
           <View style={styles.SignInText}>
             <View
               style={{

@@ -12,38 +12,100 @@ import { RootStackParamList } from "../Routes";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../utils/index";
+import useForm from "../hooks/use-form";
+import Toast from "react-native-toast-message";
 
 const { BORDER_COLOR, PRIMARY_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 
 const Register = () => {
-    const icon = "eye";
-    const [hidePassword, setHidePassword] = useState<boolean>(true);
-    const navigation = useNavigation<authScreenProp>();
-    const [color, setColor] = useState<string>('#C1C1C1');
-    const showPasswordHandler = () => {
-      color !== "#B5C401"
-        ? (setColor('#B5C401'), setHidePassword(false))
-        : (setColor('#C1C1C1'), setHidePassword(true));
-    };
-  
+  const icon = "eye";
+  const [hidePassword, setHidePassword] = useState<boolean>(true);
+  const navigation = useNavigation<authScreenProp>();
+  const [color, setColor] = useState<string>("#C1C1C1");
+  const showPasswordHandler = () => {
+    color !== "#B5C401"
+      ? (setColor("#B5C401"), setHidePassword(false))
+      : (setColor("#C1C1C1"), setHidePassword(true));
+  };
+  const {
+    value: enteredEmail,
+    changeValueHandler: changeEmailHandler,
+    hasError: emailError,
+    isValid: emailIsValid,
+    cleanField: cleanEmail
+  } = useForm((value) =>
+    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
+  );
+  const {
+    value: enteredName,
+    changeValueHandler: changeNameHandler,
+    hasError: nameError,
+    isValid: nameIsValid,
+    cleanField: cleanName
+  } = useForm((value) => value.trim().length > 0);
+  const {
+    value: enteredPassword,
+    changeValueHandler: changePasswordHandler,
+    hasError: passwordError,
+    isValid: passwordIsValid,
+    cleanField: cleanPassword
+  } = useForm((value) => value.trim().length >= 6);
+
+  const formIsValid = nameIsValid && passwordIsValid && emailIsValid;
+
+  const registerSubmitSubmit = () =>{
+    if(!formIsValid){
+     if(!emailIsValid){
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Email is invalid",
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+      return;
+     }
+     Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: "Invalid field(s)",
+      visibilityTime: 4000,
+      autoHide: true,
+      topOffset: 30,
+      bottomOffset: 40,
+    });
+    }
+    cleanPassword();
+    cleanEmail();
+    cleanName();
+  }
+
   return (
     <View style={{ alignItems: "center", justifyContent: "space-between" }}>
       <View style={styles.main}>
         <TextInput
+          value={enteredName}
+          onChange={changeNameHandler}
           autoCompleteType="name"
           textAlign="left"
           textContentType="name"
           style={styles.mainInput}
           placeholder="Name"
         ></TextInput>
+
         <TextInput
+          value={enteredEmail}
+          onChange={changeEmailHandler}
           autoCompleteType="email"
           textAlign="left"
           textContentType="emailAddress"
           style={styles.mainInput}
           placeholder="Email"
         ></TextInput>
+
         <View
           style={{
             width: "100%",
@@ -54,44 +116,46 @@ const Register = () => {
             justifyContent: "space-between",
           }}
         ></View>
-         <View
-        style={{
-          width: "100%",
-          flexDirection: "row",
-          alignItems: "center",
-          borderBottomColor: "#DDDDDD",
-          borderBottomWidth: 1,
-          justifyContent: "space-between",
-        }}
-      >
-        <TextInput
-          placeholder="Password"
-          textContentType="password"
-          secureTextEntry={hidePassword} //we pass secure component to identify its password
+        <View
           style={{
-            ...styles.mainInput,
-            borderBottomWidth: 0,
-            overflow: "hidden",
-            maxWidth: "80%",
-          }} //give custom styles
-        ></TextInput>
-        <Icon
-          name={icon}
-          size={20}
-          color={color}
-          style={{ padding: 31 }}
-          onPress={showPasswordHandler}
-        />
-      </View>
+            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+            borderBottomColor: "#DDDDDD",
+            borderBottomWidth: 1,
+            justifyContent: "space-between",
+          }}
+        >
+          <TextInput
+            value={enteredPassword}
+            onChange={changePasswordHandler}
+            placeholder="Password"
+            textContentType="password"
+            secureTextEntry={hidePassword} //we pass secure component to identify its password
+            style={{
+              ...styles.mainInput,
+              borderBottomWidth: 0,
+              overflow: "hidden",
+              maxWidth: "80%",
+            }} //give custom styles
+          ></TextInput>
+          <Icon
+            name={icon}
+            size={20}
+            color={color}
+            style={{ padding: 31 }}
+            onPress={showPasswordHandler}
+          />
+        </View>
 
-        <TouchableOpacity style={styles.signInButton}>
+        <TouchableOpacity style={styles.signInButton} onPress = {registerSubmitSubmit}>
           <View style={styles.SignInText}>
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                marginBottom: 30
+                marginBottom: 30,
               }}
             >
               <Text
@@ -110,7 +174,10 @@ const Register = () => {
           </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.signInButton} onPress ={() => navigation.navigate('Home')}>
+      <TouchableOpacity
+        style={styles.signInButton}
+        onPress={() => navigation.navigate("Home")}
+      >
         <View style={styles.SignInText}>
           <View
             style={{
@@ -134,7 +201,6 @@ const Register = () => {
           </View>
         </View>
       </TouchableOpacity>
-   
     </View>
   );
 };
@@ -175,7 +241,7 @@ const styles = StyleSheet.create({
   },
   signInButton: {
     height: 100,
-    
+
     width: "100%",
   },
   SignInText: {
