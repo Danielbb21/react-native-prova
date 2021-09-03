@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   container: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     height: "100%",
