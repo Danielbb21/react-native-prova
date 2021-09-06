@@ -103,7 +103,8 @@ const T2 = () => {
               break;
           }
           if (focused) {
-            return <Icon name={iconName} size={size} color={"#B5C401"} />;
+
+            return <View style ={{borderTopWidth: 5, paddingTop: 10, borderTopColor: '#B5C401', borderRadius: 2}}><Icon name={iconName} size={size} color={"#B5C401"} /></View>;
           }
 
           return <Icon name={iconName} size={size} color={color} />;
@@ -123,7 +124,7 @@ const T2 = () => {
           bottom: 0,
           backgroundColor: "#FFFFFF",
           height: 71,
-          borderTopColor: "red",
+          
         },
       })}
     >
