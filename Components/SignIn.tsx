@@ -53,43 +53,44 @@ const SignIn = () => {
   
   
   const logInHandler = () => {
-    if (!formIsValid) {
-      if (!emailIsValid && !passwordIsValid) {
-        Toast.show({
-          type: "error",
-          text1: "Error",
-          text2: "Invalid field(s)",
-          visibilityTime: 1500,
-          autoHide: true,
-          topOffset: 30,
-          bottomOffset: 40,
-        });
-        return;
-      }
-      if (!emailIsValid) {
-        Toast.show({
-          type: "error",
-          text1: "Error",
-          text2: "Email is invalid",
-          visibilityTime: 1500,
-          autoHide: true,
-          topOffset: 30,
-          bottomOffset: 40,
-        });
-        return;
-      }
-      Toast.show({
-        type: "error",
-        text1: "Error",
-        text2: "Password less than 6",
-        visibilityTime: 1500,
-        autoHide: true,
-        topOffset: 30,
-        bottomOffset: 40,
-      });
-      return;
-    }
-    dispatch(logUser(enteredEmail, enteredPassword));
+    navigation.navigate('teste')
+    // if (!formIsValid) {
+    //   if (!emailIsValid && !passwordIsValid) {
+    //     Toast.show({
+    //       type: "error",
+    //       text1: "Error",
+    //       text2: "Invalid field(s)",
+    //       visibilityTime: 1500,
+    //       autoHide: true,
+    //       topOffset: 30,
+    //       bottomOffset: 40,
+    //     });
+    //     return;
+    //   }
+    //   if (!emailIsValid) {
+    //     Toast.show({
+    //       type: "error",
+    //       text1: "Error",
+    //       text2: "Email is invalid",
+    //       visibilityTime: 1500,
+    //       autoHide: true,
+    //       topOffset: 30,
+    //       bottomOffset: 40,
+    //     });
+    //     return;
+    //   }
+    //   Toast.show({
+    //     type: "error",
+    //     text1: "Error",
+    //     text2: "Password less than 6",
+    //     visibilityTime: 1500,
+    //     autoHide: true,
+    //     topOffset: 30,
+    //     bottomOffset: 40,
+    //   });
+    //   return;
+    // }
+    // dispatch(logUser(enteredEmail, enteredPassword));
     // cleanEmail();
     // cleanPassword();
   };
