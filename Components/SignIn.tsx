@@ -15,6 +15,8 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../utils/index";
 import useForm from "../hooks/use-form";
+import { useAppDispatch, useAppSelector } from "../store/store-hooks";
+import { logUser } from "../store/UserSlice";
 
 const { BORDER_COLOR, PRIMARY_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
@@ -29,12 +31,13 @@ const SignIn = () => {
       ? (setColor("#B5C401"), setHidePassword(false))
       : (setColor("#C1C1C1"), setHidePassword(true));
   };
+
   const {
     value: enteredEmail,
     changeValueHandler: changeEmailHandler,
     hasError: emailError,
     isValid: emailIsValid,
-    cleanField: cleanEmail
+    cleanField: cleanEmail,
   } = useForm((value) =>
     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
   );
@@ -43,10 +46,12 @@ const SignIn = () => {
     changeValueHandler: changePasswordHandler,
     hasError: passwordError,
     isValid: passwordIsValid,
-    cleanField: cleanPassword
+    cleanField: cleanPassword,
   } = useForm((value) => value.trim().length >= 6);
   const formIsValid = emailIsValid && passwordIsValid;
-
+  const dispatch = useAppDispatch();
+  
+  
   const logInHandler = () => {
     if (!formIsValid) {
       if (!emailIsValid && !passwordIsValid) {
@@ -61,7 +66,7 @@ const SignIn = () => {
         });
         return;
       }
-      if(!emailIsValid){
+      if (!emailIsValid) {
         Toast.show({
           type: "error",
           text1: "Error",
@@ -71,7 +76,7 @@ const SignIn = () => {
           topOffset: 30,
           bottomOffset: 40,
         });
-        return 
+        return;
       }
       Toast.show({
         type: "error",
@@ -82,9 +87,11 @@ const SignIn = () => {
         topOffset: 30,
         bottomOffset: 40,
       });
+      return;
     }
-    cleanEmail();
-    cleanPassword();
+    dispatch(logUser(enteredEmail, enteredPassword));
+    // cleanEmail();
+    // cleanPassword();
   };
   return (
     <View style={{ alignItems: "center" }}>

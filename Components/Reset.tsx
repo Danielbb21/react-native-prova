@@ -49,7 +49,7 @@ const Reset = () => {
       }
       api.post('/passwords', {email: enteredEmail, redirect_url: 'http://localhost:3000/reset'})
         .then(response =>{
-          console.log('tudo ok');
+          
           Toast.show({
             type: "success",
             text1: "Sucess",

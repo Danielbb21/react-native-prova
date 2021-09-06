@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Home: undefined;
   Reset: undefined;
   Registration: undefined;
+  teste: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -27,7 +28,7 @@ export const Routes = () => {
       <Stack.Screen name="Home" component={Authentication} />
       <Stack.Screen name="Reset" component={ResetPassword} />
       <Stack.Screen name="Registration" component={Registration} />
-      
+      {/* <Stack.Screen name="teste" component={T2} /> */}
     </Stack.Navigator>
   );
 };
@@ -37,6 +38,11 @@ const T2 = () => {
       <Tab.Screen
         name="teste"
         component={Logo}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="teste2"
+        component={Authentication}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
