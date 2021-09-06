@@ -3,12 +3,27 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Logo from "./Logo";
 import { colors } from "../utils";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../Routes";
+import { useNavigation } from "@react-navigation/core";
+import { useAppDispatch } from "../store/store-hooks";
+import { logOut } from "../store/UserSlice";
 const { PRIMARY_COLOR, BORDER_COLOR } = colors;
-
+type authScreenProp = StackNavigationProp<RootStackParamList>;
 const Header = () => {
+  const navigation = useNavigation<authScreenProp>();
+  const dispatch = useAppDispatch();
+
+  const logUserOut = () => {
+    dispatch(logOut());
+  };
+  const goToMyBetsPage = () => {
+    navigation.navigate("teste");
+  };
+
   return (
     <View style={styles.header}>
-      <TouchableOpacity style={styles.logoWrapper}>
+      <TouchableOpacity style={styles.logoWrapper} onPress={goToMyBetsPage}>
         <Text style={styles.logoText}>TGL</Text>
       </TouchableOpacity>
       <TouchableOpacity>
@@ -17,6 +32,7 @@ const Header = () => {
           size={35}
           color="#C1C1C1"
           style={{ marginRight: 35, marginTop: 10 }}
+          onPress={logUserOut}
         />
       </TouchableOpacity>
     </View>
@@ -37,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   logoWrapper: {
-    width: 78,
+    // width: 78,
     height: 50,
     marginLeft: 29,
   },

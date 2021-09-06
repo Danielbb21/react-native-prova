@@ -18,6 +18,7 @@ export type RootStackParamList = {
   Reset: undefined;
   Registration: undefined;
   teste: undefined;
+  
 };
 
 interface Prop {

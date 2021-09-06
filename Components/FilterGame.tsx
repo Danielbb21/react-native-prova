@@ -13,7 +13,7 @@ const FilterGame = () => {
   const user = useAppSelector((state) => state.user.info);
   const allGames = useAppSelector((state) => state.game.items);
   const [gameFilters, setGameFilters] = useState<string[]>([]);
-
+    console.log('aqui');
   useEffect(() => {
     dispatch(getGameData(token));
 
