@@ -14,6 +14,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../utils/index";
 import useForm from "../hooks/use-form";
 import Toast from "react-native-toast-message";
+import { api } from "../api";
 
 const { BORDER_COLOR, PRIMARY_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
@@ -44,8 +45,50 @@ const Reset = () => {
           topOffset: 30,
           bottomOffset: 40,
         });
+        return;
       }
-      cleanEmail();
+      api.post('/passwords', {email: enteredEmail, redirect_url: 'http://localhost:3000/reset'})
+        .then(response =>{
+          console.log('tudo ok');
+          Toast.show({
+            type: "success",
+            text1: "Sucess",
+            text2: "A email was sended to your account",
+            visibilityTime: 1000,
+            autoHide: true,
+            topOffset: 30,
+            bottomOffset: 40,
+          });
+          
+          cleanEmail();
+          navigation.navigate('Home');
+        })
+        .catch(err => {
+          console.log(err.message);
+          if(err.message === 'Request failed with status code 400'){
+            Toast.show({
+              type: "error",
+              text1: "Error",
+              text2: "Email not found",
+              visibilityTime: 1000,
+              autoHide: true,
+              topOffset: 30,
+              bottomOffset: 40,
+            });
+          }
+          else{
+            Toast.show({
+              type: "error",
+              text1: "Error",
+              text2: "Sommeting went wrong",
+              visibilityTime: 1000,
+              autoHide: true,
+              topOffset: 30,
+              bottomOffset: 40,
+            });
+          }
+        })
+      
     }
   return (
     <View style={{ alignItems: "center", justifyContent: "space-between" }}>
