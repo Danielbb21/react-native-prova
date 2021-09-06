@@ -16,7 +16,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../utils/index";
 import useForm from "../hooks/use-form";
 import { useAppDispatch, useAppSelector } from "../store/store-hooks";
-import { logUser } from "../store/UserSlice";
+import { login, logUser } from "../store/UserSlice";
+import { api } from "../api";
 
 const { BORDER_COLOR, PRIMARY_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
@@ -50,47 +51,88 @@ const SignIn = () => {
   } = useForm((value) => value.trim().length >= 6);
   const formIsValid = emailIsValid && passwordIsValid;
   const dispatch = useAppDispatch();
-  
+  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
+ 
   
   const logInHandler = () => {
-    navigation.navigate('teste')
-    // if (!formIsValid) {
-    //   if (!emailIsValid && !passwordIsValid) {
-    //     Toast.show({
-    //       type: "error",
-    //       text1: "Error",
-    //       text2: "Invalid field(s)",
-    //       visibilityTime: 1500,
-    //       autoHide: true,
-    //       topOffset: 30,
-    //       bottomOffset: 40,
-    //     });
-    //     return;
-    //   }
-    //   if (!emailIsValid) {
-    //     Toast.show({
-    //       type: "error",
-    //       text1: "Error",
-    //       text2: "Email is invalid",
-    //       visibilityTime: 1500,
-    //       autoHide: true,
-    //       topOffset: 30,
-    //       bottomOffset: 40,
-    //     });
-    //     return;
-    //   }
-    //   Toast.show({
-    //     type: "error",
-    //     text1: "Error",
-    //     text2: "Password less than 6",
-    //     visibilityTime: 1500,
-    //     autoHide: true,
-    //     topOffset: 30,
-    //     bottomOffset: 40,
-    //   });
-    //   return;
-    // }
+    
+    if (!formIsValid) {
+      if (!emailIsValid && !passwordIsValid) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Invalid field(s)",
+          visibilityTime: 1500,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+        return;
+      }
+      if (!emailIsValid) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Email is invalid",
+          visibilityTime: 1500,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+        return;
+      }
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Password less than 6",
+        visibilityTime: 1500,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+      return;
+    }
     // dispatch(logUser(enteredEmail, enteredPassword));
+    api
+            .post("/session", {
+                email: enteredEmail,
+                password: enteredPassword,
+            })
+            .then((response) => {
+                const token = response.data.token;
+                
+                dispatch(login(token));
+                navigation.navigate('teste');
+                return true;
+
+            })
+            .catch((err) => {
+
+                if (err.message === 'Request failed with status code 400') {
+                    Toast.show({
+                        type: "error",
+                        text1: "Error",
+                        text2: "Email password combination is wrong",
+                        visibilityTime: 1000,
+                        autoHide: true,
+                        topOffset: 30,
+                        bottomOffset: 40,
+                    });
+
+                } else {
+                    Toast.show({
+                        type: "error",
+                        text1: "Error",
+                        text2: "Sommeting went wrong",
+                        visibilityTime: 1000,
+                        autoHide: true,
+                        topOffset: 30,
+                        bottomOffset: 40,
+                    });
+                }
+                console.log(err.message);
+                return false;
+            });
     // cleanEmail();
     // cleanPassword();
   };

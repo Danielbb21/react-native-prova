@@ -10,6 +10,8 @@ import ResetPassword from "./Pages/ResetPassword";
 import Registration from "./Pages/Registration";
 import Icon from "react-native-vector-icons/Feather";
 import "./assets/newbeticon.png";
+import { useAppSelector } from "./store/store-hooks";
+import MyBets from "./Pages/MyBets";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -57,6 +59,8 @@ const Teste: React.FC = ({ children }) => (
   </TouchableOpacity>
 );
 export const Routes = () => {
+  const isLogged = useAppSelector((state) => state.user.isLoggedIn);
+
   return (
     <Stack.Navigator
       initialRouteName="Home"
@@ -64,14 +68,17 @@ export const Routes = () => {
     >
       <Stack.Screen name="Home" component={Authentication} />
       <Stack.Screen name="Reset" component={ResetPassword} />
+
       <Stack.Screen name="Registration" component={Registration} />
-      <Stack.Screen name="teste" component={T2} />
+      {isLogged && <Stack.Screen name="teste" component={T2} />}
+      {!isLogged &&  <Stack.Screen name="Hoem2" component={Authentication} />}
     </Stack.Navigator>
   );
 };
 const T2 = () => {
   return (
     <Tab.Navigator
+      initialRouteName="My-bets"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, focused }) => {
           let iconName;
@@ -109,7 +116,7 @@ const T2 = () => {
           activeTintColor: "#000",
           inactiveTintColor: "#fff",
         },
-      
+
         tabBarStyle: {
           position: "absolute",
           bottom: 0,
@@ -121,7 +128,7 @@ const T2 = () => {
     >
       <Tab.Screen
         name="Home"
-        component={Logo}
+        component={MyBets}
         // options={() => ({
         //   tabBarIcon: ({color,focused,size }) => (
         //     <View>
