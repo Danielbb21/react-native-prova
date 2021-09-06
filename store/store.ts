@@ -2,11 +2,13 @@
 import { useDispatch } from 'react-redux';
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import UserSlice from './UserSlice';
+import GameSlice from './GameSlice';
 
 
 export const store = configureStore({
     reducer: {
-        user: UserSlice
+        user: UserSlice,
+        game: GameSlice
     }
 });
 

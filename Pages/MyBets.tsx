@@ -1,10 +1,14 @@
 import React from "react";
-import { View, Text } from "react-native";
+import FilterGame from "../Components/FilterGame";
 import Header from "../Components/Header";
 
-
 const MyBets = () => {
-  return <Header />;
+  return (
+    <>
+      <Header />
+      <FilterGame />
+    </>
+  );
 };
 
 export default MyBets;

@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const UserObj = {
 
     isLoggedIn: false,
+    token: '',
     info: {
         id: '',
         email: '',
@@ -42,12 +43,14 @@ export const UserSlice = createSlice({
             // localStorage.setItem('token', data);
             state.isLoggedIn = true;
             state.isLoggedIn = true;
+            state.token = data;
             return state;
         },
         logOut: (state) => {
             AsyncStorage.removeItem('token').then().catch();
             // localStorage.removeItem('token');
             state.isLoggedIn = false;
+            state.token = '',
             state.isLoggedIn = false;
         },
 
@@ -118,7 +121,7 @@ export function logUser(email: string, password: string): AppThunk {
 
 export function getUserInfo(token: string): AppThunk {
     return async function (dispatch: AppDispatch) {
-        axios.get('http://127.0.0.1:3333/user', {
+        api.get('/user', {
             headers: { Authorization: `Bearer ${token}` }
         }).then(response => {
 
