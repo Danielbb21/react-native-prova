@@ -14,6 +14,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../utils/index";
 import useForm from "../hooks/use-form";
 import Toast from "react-native-toast-message";
+import axios from "axios";
+import { api } from "../api";
 
 const { BORDER_COLOR, PRIMARY_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
@@ -33,7 +35,7 @@ const Register = () => {
     changeValueHandler: changeEmailHandler,
     hasError: emailError,
     isValid: emailIsValid,
-    cleanField: cleanEmail
+    cleanField: cleanEmail,
   } = useForm((value) =>
     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
   );
@@ -42,46 +44,89 @@ const Register = () => {
     changeValueHandler: changeNameHandler,
     hasError: nameError,
     isValid: nameIsValid,
-    cleanField: cleanName
+    cleanField: cleanName,
   } = useForm((value) => value.trim().length > 0);
   const {
     value: enteredPassword,
     changeValueHandler: changePasswordHandler,
     hasError: passwordError,
     isValid: passwordIsValid,
-    cleanField: cleanPassword
+    cleanField: cleanPassword,
   } = useForm((value) => value.trim().length >= 6);
 
   const formIsValid = nameIsValid && passwordIsValid && emailIsValid;
 
-  const registerSubmitSubmit = () =>{
-    if(!formIsValid){
-     if(!emailIsValid){
+  const registerSubmitSubmit = () => {
+    if (!formIsValid) {
+      if (!emailIsValid) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Email is invalid",
+          visibilityTime: 4000,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+        return;
+      }
       Toast.show({
         type: "error",
         text1: "Error",
-        text2: "Email is invalid",
+        text2: "Invalid field(s)",
         visibilityTime: 4000,
         autoHide: true,
         topOffset: 30,
         bottomOffset: 40,
       });
-      return;
-     }
-     Toast.show({
-      type: "error",
-      text1: "Error",
-      text2: "Invalid field(s)",
-      visibilityTime: 4000,
-      autoHide: true,
-      topOffset: 30,
-      bottomOffset: 40,
-    });
     }
-    cleanPassword();
-    cleanEmail();
-    cleanName();
-  }
+    api
+      .post("/user", {
+        name: enteredName,
+        email: enteredEmail,
+        password: enteredPassword,
+      })
+      .then((response) => {
+        
+        Toast.show({
+          type: "success",
+          text1: "Sucess",
+          text2: "User Created",
+          visibilityTime: 1000,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+        cleanPassword();
+        cleanEmail();
+        cleanName();
+        navigation.navigate('Home');
+      })
+      .catch((err) => {
+        console.log(err.message);
+        if (err.message === "Request failed with status code 400") {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: "This Email is alredy been in use",
+            visibilityTime: 1000,
+            autoHide: true,
+            topOffset: 30,
+            bottomOffset: 40,
+          });
+        } else {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: "Sommeting went wrong",
+            visibilityTime: 1000,
+            autoHide: true,
+            topOffset: 30,
+            bottomOffset: 40,
+          });
+        }
+      });
+  };
 
   return (
     <View style={{ alignItems: "center", justifyContent: "space-between" }}>
@@ -148,7 +193,10 @@ const Register = () => {
           />
         </View>
 
-        <TouchableOpacity style={styles.signInButton} onPress = {registerSubmitSubmit}>
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={registerSubmitSubmit}
+        >
           <View style={styles.SignInText}>
             <View
               style={{

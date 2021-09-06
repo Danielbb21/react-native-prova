@@ -11,31 +11,21 @@ import { colors } from "../utils";
 const { BACKGOUND_COLOR } = colors;
 
 const Authentication: React.FC = () => {
-  const myHeaders = new Headers();
+  // const token =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjQxLCJpYXQiOjE2MzA5NDgwNTV9.3cPVdDceGkiIcnw_DFib_KQfxNsoZT3aRSG5PPTLa78";
 
-  /* 
-    myHeaders.append('Content-Type', 'application/json'); 
-    since it's a get request you don't need to specify your content-type
-  */
-
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjQxLCJpYXQiOjE2MzA5NDgwNTV9.3cPVdDceGkiIcnw_DFib_KQfxNsoZT3aRSG5PPTLa78";
-
-  myHeaders.append("Authorization", `Bearer ${token}`);
-  useEffect(() => {
-  
-
-    api
-      .get("/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        console.log("response", response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   api
+  //     .get("/user", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     })
+  //     .then((response) => {
+  //       console.log("response", response.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   return (
     <>
