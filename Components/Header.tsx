@@ -43,6 +43,7 @@ export default Header;
 
 const styles = StyleSheet.create({
   header: {
+    zIndex: 81818,
     position: "absolute",
     top: 0,
     width: "100%",
