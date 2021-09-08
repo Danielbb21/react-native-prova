@@ -13,13 +13,12 @@ const FilterGame = () => {
   const user = useAppSelector((state) => state.user.info);
   const allGames = useAppSelector((state) => state.game.items);
   const [gameFilters, setGameFilters] = useState<string[]>([]);
-    console.log('aqui');
+  console.log("aqui");
   useEffect(() => {
     dispatch(getGameData(token));
 
     dispatch(getUserInfo(token));
   }, [token, dispatch]);
-  
 
   const setFilterHandler = (type: string) => {
     console.log("typeGame", type);
@@ -56,26 +55,28 @@ const FilterGame = () => {
       <View style={styles.buttons}>
         {allGames.length > 0 &&
           allGames.map((game) => {
-              if(gameFilters.find(g => g === game.type)){
-                return (
-                    <FilterGameButtons
-                      chose={setFilterHandler.bind(null, game.type)}
-                      key={game.id}
-                      color={game.color}
-                      name={game.type}
-                      isClicked={true}
-                    />
-                  );
-              }
+            if (gameFilters.find((g) => g === game.type)) {
               return (
                 <FilterGameButtons
+                  isNewGame={false}
                   chose={setFilterHandler.bind(null, game.type)}
                   key={game.id}
                   color={game.color}
                   name={game.type}
-                  isClicked={false}
+                  isClicked={true}
                 />
               );
+            }
+            return (
+              <FilterGameButtons
+                isNewGame={false}
+                chose={setFilterHandler.bind(null, game.type)}
+                key={game.id}
+                color={game.color}
+                name={game.type}
+                isClicked={false}
+              />
+            );
           })}
       </View>
     </View>

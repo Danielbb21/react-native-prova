@@ -74,10 +74,10 @@ const UserInfo = () => {
         <Text style={{ ...styles.textStyle, marginTop: 10, fontSize: 20 }}>
           Your information
         </Text>
-        <Text style={{ ...styles.textStyle, fontSize: 15, marginTop: 5 }}>
+        <Text style={{ ...styles.textStyle, fontSize: 17, marginTop: 5 }}>
           Name: {user.name}
         </Text>
-        <Text style={{ ...styles.textStyle, fontSize: 15, marginTop: 5 }}>
+        <Text style={{ ...styles.textStyle, fontSize: 17, marginTop: 5 }}>
           Name: {user.email}
         </Text>
         <Text style={{ ...styles.textStyle, fontSize: 20, marginTop: 10 }}>

@@ -13,6 +13,7 @@ import "./assets/newbeticon.png";
 import { useAppSelector } from "./store/store-hooks";
 import MyBets from "./Pages/MyBets";
 import Account from "./Pages/Account";
+import NewBet from "./Pages/NewBet";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -73,7 +74,7 @@ export const Routes = () => {
 
       <Stack.Screen name="Registration" component={Registration} />
       {isLogged && <Stack.Screen name="teste" component={T2} />}
-      {!isLogged &&  <Stack.Screen name="Hoem2" component={Authentication} />}
+      {!isLogged && <Stack.Screen name="Hoem2" component={Authentication} />}
     </Stack.Navigator>
   );
 };
@@ -104,8 +105,18 @@ const T2 = () => {
               break;
           }
           if (focused) {
-
-            return <View style ={{borderTopWidth: 5, paddingTop: 10, borderTopColor: '#B5C401', borderRadius: 2}}><Icon name={iconName} size={size} color={"#B5C401"} /></View>;
+            return (
+              <View
+                style={{
+                  borderTopWidth: 5,
+                  paddingTop: 10,
+                  borderTopColor: "#B5C401",
+                  borderRadius: 2,
+                }}
+              >
+                <Icon name={iconName} size={size} color={"#B5C401"} />
+              </View>
+            );
           }
 
           return <Icon name={iconName} size={size} color={color} />;
@@ -125,7 +136,6 @@ const T2 = () => {
           bottom: 0,
           backgroundColor: "#FFFFFF",
           height: 71,
-          
         },
       })}
     >
@@ -155,7 +165,7 @@ const T2 = () => {
       />
       <Tab.Screen
         name="Game"
-        component={Authentication}
+        component={NewBet}
         options={{ headerShown: false, title: "" }}
       />
       <Tab.Screen

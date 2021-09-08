@@ -6,34 +6,64 @@ interface ButtonProps {
   name: string;
   isClicked: boolean;
   chose: () => void;
+  isNewGame: boolean;
 }
 const FilterGameButtons: React.FC<ButtonProps> = (props) => {
-  return (
-    <TouchableOpacity onPress = {props.chose}>
-      {props.isClicked ? (
-        <View
-          style={{
-            ...styles.buttonWrapper,
-            borderColor: props.color,
-            backgroundColor: props.color,
-          }}
-        >
-          <View style = {{flexDirection: 'row'}}>
-            <Text style={{ ...styles.text, color: "#fff" }}>
-              {props.name} 
-            </Text>
-            <Icon name="close" style = {{color:'#fff'}}/>
+  console.log(props.isNewGame, props.isClicked);
+  if (props.isNewGame) {
+    return (
+      <TouchableOpacity onPress={props.chose}>
+        {props.isClicked ? (
+          <View
+            style={{
+              ...styles.buttonWrapper,
+              borderColor: props.color,
+              backgroundColor: props.color,
+            }}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ ...styles.text, color: "#fff" }}>
+                {props.name}
+              </Text>
+            </View>
           </View>
-        </View>
-      ) : (
-        <View style={{ ...styles.buttonWrapper, borderColor: props.color }}>
-          <Text style={{ ...styles.text, color: props.color }}>
-            {props.name}
-          </Text>
-        </View>
-      )}
-    </TouchableOpacity>
-  );
+        ) : (
+          <View style={{ ...styles.buttonWrapper, borderColor: props.color }}>
+            <Text style={{ ...styles.text, color: props.color }}>
+              {props.name}
+            </Text>
+          </View>
+        )}
+      </TouchableOpacity>
+    );
+  } else {
+    return (
+      <TouchableOpacity onPress={props.chose}>
+        { props.isClicked ? (
+          <View
+            style={{
+              ...styles.buttonWrapper,
+              borderColor: props.color,
+              backgroundColor: props.color,
+            }}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ ...styles.text, color: "#fff" }}>
+                {props.name}
+              </Text>
+              <Icon name="close" style={{ color: "#fff" }} />
+            </View>
+          </View>
+        ) : (
+          <View style={{ ...styles.buttonWrapper, borderColor: props.color }}>
+            <Text style={{ ...styles.text, color: props.color }}>
+              {props.name}
+            </Text>
+          </View>
+        )}
+      </TouchableOpacity>
+    );
+  }
 };
 
 export default FilterGameButtons;
