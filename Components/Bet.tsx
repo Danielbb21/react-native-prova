@@ -12,7 +12,7 @@ import { useAppDispatch } from "../store/store";
 import { useAppSelector } from "../store/store-hooks";
 import FilterGameButtons from "./FilterGameButtons";
 import GameInfo from "./GameInfo";
-import Number from "./Number";
+import Number, { NumberChosed } from "./Number";
 interface Options {
   type: string;
   description: string;
@@ -143,7 +143,7 @@ const Bet = () => {
         type: "error",
         text1: "Error",
         text2: "You already chosed all the numbers",
-        visibilityTime: 4000,
+        visibilityTime: 1000,
         autoHide: true,
         topOffset: 30,
         bottomOffset: 40,
@@ -221,28 +221,46 @@ const Bet = () => {
             }
           })}
         </View>
-        <Text
-          style={{
-            color: "#868686",
-            fontSize: 17,
-            fontWeight: "bold",
-            fontStyle: "italic",
-            marginTop: 20,
-          }}
-        >
-          Fill your bet
-        </Text>
-        <Text
-          style={{
-            color: "#868686",
-            fontSize: 17,
-            fontWeight: "bold",
-            fontStyle: "italic",
-            marginTop: 20,
-          }}
-        >
-          {gameOptions?.description}
-        </Text>
+        {numbersOfTheGame.length === 0 && (
+          <>
+            <Text
+              style={{
+                color: "#868686",
+                fontSize: 17,
+                fontWeight: "bold",
+                fontStyle: "italic",
+                marginTop: 20,
+              }}
+            >
+              Fill your bet
+            </Text>
+            <Text
+              style={{
+                color: "#868686",
+                fontSize: 17,
+                fontWeight: "bold",
+                fontStyle: "italic",
+                marginTop: 20,
+              }}
+            >
+              {gameOptions?.description}
+            </Text>
+          </>
+        )}
+
+        {chosedNumbers.length > 0 &&
+          chosedNumbers.map((num) => {
+            return (
+                <View style= {{flexDirection: 'row', backgroundColor: 'blue'}}>
+              <NumberChosed
+                key={Math.random().toString()}
+                colorGame={gameOptions?.color}
+              >
+                {num}
+              </NumberChosed>
+              </View>
+            );
+          })}
       </View>
 
       <ScrollView style={{ flex: 1 }}>
