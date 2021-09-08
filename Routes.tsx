@@ -12,13 +12,14 @@ import Icon from "react-native-vector-icons/Feather";
 import "./assets/newbeticon.png";
 import { useAppSelector } from "./store/store-hooks";
 import MyBets from "./Pages/MyBets";
+import Account from "./Pages/Account";
 
 export type RootStackParamList = {
   Home: undefined;
   Reset: undefined;
   Registration: undefined;
   teste: undefined;
-  
+  MyBets: undefined;
 };
 
 interface Prop {
@@ -87,10 +88,10 @@ const T2 = () => {
           switch (route.name) {
             case "Home":
               iconName = "home";
-              size = 28;
+              size = 30;
               break;
             case "Account":
-              iconName = "list";
+              iconName = "user";
               size = 28;
               break;
             case "Game":
@@ -115,7 +116,7 @@ const T2 = () => {
           padding: 0,
         },
         tabBarOptions: {
-          activeTintColor: "#000",
+          activeTintColor: "#eb2929",
           inactiveTintColor: "#fff",
         },
 
@@ -159,7 +160,7 @@ const T2 = () => {
       />
       <Tab.Screen
         name="Account"
-        component={Authentication}
+        component={Account}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
