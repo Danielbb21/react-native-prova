@@ -208,6 +208,12 @@ const Bet = () => {
     setChosedNumber(arr);
   };
 
+  const clearGameHandler = () => {
+    if (chosedNumbers.length > 0) {
+      setChosedNumber([]);
+    }
+  };
+
   return (
     <>
       <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
@@ -313,7 +319,7 @@ const Bet = () => {
                 hei={32}
                 color="#B5C401"
                 backColor="#B5C401"
-                execute = {completeGameHandler}
+                execute={completeGameHandler}
               >
                 Complet Game
               </ActionButton>
@@ -322,6 +328,7 @@ const Bet = () => {
                 hei={32}
                 color="#B5C401"
                 backColor="#B5C401"
+                execute={clearGameHandler}
               >
                 Clear Game
               </ActionButton>
