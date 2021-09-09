@@ -38,12 +38,14 @@ const Number: React.FC<NumberProps> = (props) => {
 export const NumberChosed: React.FC<NumberChosedProps> = (props) => {
   return (
     <View style={styles.numberChosedWrapper}>
-      <View style = {{flexDirection: 'row-reverse', backgroundColor: 'red'}}>
-        <TouchableOpacity style={styles.numberChosed} onPress={props.onRemove}>
-          <Text style={{ fontSize: 13, fontWeight: "bold", color: "#fff" }}>
-            {props.children}
-          </Text>
-          <Icon name="close" style={{ color: "#fff" }} />
+      <View style={{ flexDirection: "row-reverse" }}>
+        <TouchableOpacity style={{...styles.numberChosed, backgroundColor: props.colorGame}} onPress={props.onRemove} >
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{ fontSize: 13, fontWeight: "bold", color: "#fff" }}>
+              {props.children}
+            </Text>
+            <Icon name="close" style={{ color: "#fff" }} />
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     // width: "90%",
     flexWrap: "wrap",
     maxHeight: 20,
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   numberChosed: {
     width: 40,

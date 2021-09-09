@@ -167,6 +167,15 @@ const Bet = () => {
       });
     }
   };
+
+  const removeNumber = (num: number) => {
+    setChosedNumber((previus) => {
+      const arr = [...previus];
+      const novo = arr.filter((element) => element !== num);
+      return novo;
+    });
+  };
+
   return (
     <>
       <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
@@ -193,7 +202,7 @@ const Bet = () => {
         >
           Chose a game
         </Text>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%" }}>
           {games.map((game) => {
             if (filter === game.type) {
               return (
@@ -221,8 +230,9 @@ const Bet = () => {
             }
           })}
         </View>
-        {numbersOfTheGame.length === 0 && (
-          <>
+
+        {chosedNumbers.length === 0 && (
+          <View>
             <Text
               style={{
                 color: "#868686",
@@ -234,6 +244,7 @@ const Bet = () => {
             >
               Fill your bet
             </Text>
+
             <Text
               style={{
                 color: "#868686",
@@ -245,22 +256,23 @@ const Bet = () => {
             >
               {gameOptions?.description}
             </Text>
-          </>
+          </View>
         )}
 
-        {chosedNumbers.length > 0 &&
-          chosedNumbers.map((num) => {
-            return (
-                <View style= {{flexDirection: 'row', backgroundColor: 'blue'}}>
-              <NumberChosed
-                key={Math.random().toString()}
-                colorGame={gameOptions?.color}
-              >
-                {num}
-              </NumberChosed>
-              </View>
-            );
-          })}
+        <View style={{ flexDirection: "row", height: "100%" }}>
+          {chosedNumbers.length > 0 &&
+            chosedNumbers.map((num) => {
+              return (
+                <NumberChosed
+                  key={Math.random().toString()}
+                  colorGame={gameOptions?.color}
+                  onRemove={removeNumber.bind(null, num)}
+                >
+                  {num}
+                </NumberChosed>
+              );
+            })}
+        </View>
       </View>
 
       <ScrollView style={{ flex: 1 }}>
