@@ -25,7 +25,7 @@ const UserInfo = () => {
   const user = useAppSelector((state) => state.user.info);
 
   useEffect(() => {
-    console.log("init");
+    
     dispatch(getGameData(token));
 
     dispatch(getUserInfo(token));

@@ -27,7 +27,7 @@ const Header = () => {
     dispatch(showCartComponent());
   };
   const showCartButton = useAppSelector((state) => state.showCart.isShow);
-  console.log("ShowCartButton", showCartButton);
+  
 
   return (
     <View style={styles.header}>

@@ -15,7 +15,7 @@ import Cart from "./Cart";
 import FilterGameButtons from "./FilterGameButtons";
 import GameInfo from "./GameInfo";
 import Number, { NumberChosed } from "./Number";
-import { hideCart, showCart } from "../store/CartShowSlice";
+import { hideCart, showCart, showCartComponent } from "../store/CartShowSlice";
 
 interface Options {
   type: string;
@@ -53,11 +53,11 @@ const Bet = () => {
   const [chosedNumbers, setChosedNumber] = useState<number[]>([]);
   const [cartNumbers, setCartNumber] = useState<CartOptions[]>([]);
 
-  const showCartComponent = useAppSelector(
+  const showCartElement = useAppSelector(
     (state) => state.showCart.showComponent
   );
 
-  console.log("cart Numbers", cartNumbers);
+  
   const fillNumbers = (maxNumbers: number, range: number): number[] => {
     var numeros = [];
 
@@ -116,7 +116,7 @@ const Bet = () => {
 
   useEffect(() => {
     if (chosedNumbers.length > 0) {
-      console.log("aquiiii");
+      
       dispatch(showCart());
     } else {
       dispatch(hideCart());
@@ -271,10 +271,11 @@ const Bet = () => {
     });
 
     setChosedNumber([]);
+    dispatch(showCartComponent())
   };
   return (
     <>
-      {showCartComponent && <Cart />}
+      {showCartElement && <Cart items={cartNumbers} />}
 
       <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
         <Text
@@ -318,7 +319,7 @@ const Bet = () => {
                 <FilterGameButtons
                   isNewGame={true}
                   chose={setFilterHandler.bind(null, game.type)}
-                  //   chose={() => console.log("teste123")}
+                  
                   key={game.id}
                   color={game.color}
                   name={game.type}

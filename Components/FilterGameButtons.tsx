@@ -9,7 +9,7 @@ interface ButtonProps {
   isNewGame: boolean;
 }
 const FilterGameButtons: React.FC<ButtonProps> = (props) => {
-  console.log(props.isNewGame, props.isClicked);
+  
   if (props.isNewGame) {
     return (
       <TouchableOpacity onPress={props.chose}>
