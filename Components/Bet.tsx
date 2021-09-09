@@ -11,6 +11,7 @@ import { getGameData } from "../store/GameSlice";
 import { useAppDispatch } from "../store/store";
 import { useAppSelector } from "../store/store-hooks";
 import ActionButton from "./ActionButton";
+import Cart from "./Cart";
 import FilterGameButtons from "./FilterGameButtons";
 import GameInfo from "./GameInfo";
 import Number, { NumberChosed } from "./Number";
@@ -214,8 +215,38 @@ const Bet = () => {
     }
   };
 
+  const addGameToCartHandler = () => {
+    if (chosedNumbers.length !== gameOptions?.["max-number"]) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Still missing numbers in your game",
+        visibilityTime: 1000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+
+      return;
+    }
+    setCartNumber((previus) => {
+      const newArray = [...previus];
+      newArray.push({
+        id: Math.random().toString(),
+        color: gameOptions.color,
+        numbers: chosedNumbers,
+        price: gameOptions.price,
+        type: gameOptions.type,
+        game_id: gameOptions.game_id,
+      });
+      return newArray;
+    });
+
+    setChosedNumber([]);
+  };
   return (
     <>
+      {/* <Cart /> */}
       <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
         <Text
           style={{
@@ -339,6 +370,7 @@ const Bet = () => {
                 backColor="#B5C401"
                 icon={true}
                 iconName="cart-outline"
+                execute={addGameToCartHandler}
               >
                 Add to Cart
               </ActionButton>
@@ -350,7 +382,7 @@ const Bet = () => {
       <ScrollView style={{ flex: 1 }}>
         <View
           style={{
-            marginTop: 420,
+            marginTop: 450,
             marginBottom: 100,
             width: "100%",
             marginLeft: 20,
