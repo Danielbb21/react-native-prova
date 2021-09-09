@@ -10,6 +10,7 @@ import Toast from "react-native-toast-message";
 import { getGameData } from "../store/GameSlice";
 import { useAppDispatch } from "../store/store";
 import { useAppSelector } from "../store/store-hooks";
+import ActionButton from "./ActionButton";
 import FilterGameButtons from "./FilterGameButtons";
 import GameInfo from "./GameInfo";
 import Number, { NumberChosed } from "./Number";
@@ -52,6 +53,7 @@ const Bet = () => {
 
     while (numeros.length < maxNumbers) {
       var aleatorio = Math.floor(Math.random() * range) + 1;
+
       if (numeros.indexOf(aleatorio) === -1) numeros.push(aleatorio);
     }
     return numeros;
@@ -133,9 +135,12 @@ const Bet = () => {
     const isAlreadyIntheLimit =
       chosedNumbers.length === gameOptions?.["max-number"];
     if (isAlreadyChosed) {
-      setChosedNumber((previus) =>
-        previus.filter((num) => num !== numberToBeChose)
-      );
+      setChosedNumber((previus) => {
+        const arr = [...previus];
+        arr.filter((num) => num !== numberToBeChose);
+        const novo = arr.sort(comparaNumeros);
+        return novo;
+      });
       return false;
     }
     if (isAlreadyIntheLimit) {
@@ -163,7 +168,8 @@ const Bet = () => {
       setChosedNumber((previusState) => {
         let newArray = [...previusState];
         newArray.push(numberChosed);
-        return newArray;
+        const novo = newArray.sort(comparaNumeros);
+        return novo;
       });
     }
   };
@@ -171,9 +177,35 @@ const Bet = () => {
   const removeNumber = (num: number) => {
     setChosedNumber((previus) => {
       const arr = [...previus];
-      const novo = arr.filter((element) => element !== num);
+      const novo = arr
+        .filter((element) => element !== num)
+        .sort(comparaNumeros);
       return novo;
     });
+  };
+
+  const completeGameHandler = () => {
+    let arrayOfChosenNumbers = [...chosedNumbers];
+
+    if (arrayOfChosenNumbers.length === gameOptions?.["max-number"]) {
+      arrayOfChosenNumbers = [];
+    }
+    if (!gameOptions) {
+      return;
+    }
+
+    while (arrayOfChosenNumbers.length !== gameOptions?.["max-number"]) {
+      let numberSorted = Math.floor(Math.random() * gameOptions?.range) + 1;
+
+      let isAlreadyChosed = arrayOfChosenNumbers.find(
+        (number) => number === numberSorted
+      );
+      if (!isAlreadyChosed) {
+        arrayOfChosenNumbers.push(numberSorted);
+      }
+    }
+    const arr = arrayOfChosenNumbers.sort(comparaNumeros);
+    setChosedNumber(arr);
   };
 
   return (
@@ -259,7 +291,7 @@ const Bet = () => {
           </View>
         )}
 
-        <View style={{ flexDirection: "row", height: "100%" }}>
+        <View style={{ flexDirection: "row" }}>
           {chosedNumbers.length > 0 &&
             chosedNumbers.map((num) => {
               return (
@@ -273,12 +305,45 @@ const Bet = () => {
               );
             })}
         </View>
+        <View style={{ flexDirection: "row", marginTop: 25 }}>
+          {chosedNumbers.length > 0 && (
+            <>
+              <ActionButton
+                wid={110}
+                hei={32}
+                color="#B5C401"
+                backColor="#B5C401"
+                execute = {completeGameHandler}
+              >
+                Complet Game
+              </ActionButton>
+              <ActionButton
+                wid={87}
+                hei={32}
+                color="#B5C401"
+                backColor="#B5C401"
+              >
+                Clear Game
+              </ActionButton>
+              <ActionButton
+                wid={122}
+                hei={32}
+                color="#B5C401"
+                backColor="#B5C401"
+                icon={true}
+                iconName="cart-outline"
+              >
+                Add to Cart
+              </ActionButton>
+            </>
+          )}
+        </View>
       </View>
 
       <ScrollView style={{ flex: 1 }}>
         <View
           style={{
-            marginTop: 380,
+            marginTop: 420,
             marginBottom: 100,
             width: "100%",
             marginLeft: 20,

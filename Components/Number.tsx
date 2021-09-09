@@ -39,7 +39,7 @@ export const NumberChosed: React.FC<NumberChosedProps> = (props) => {
   return (
     <View style={styles.numberChosedWrapper}>
       <View style={{ flexDirection: "row-reverse" }}>
-        <TouchableOpacity style={{...styles.numberChosed, backgroundColor: props.colorGame}} onPress={props.onRemove} >
+        <TouchableOpacity style={{...styles.numberChosed, backgroundColor: props.colorGame, margin: 5}} onPress={props.onRemove} >
           <View style={{flexDirection: 'row'}}>
             <Text style={{ fontSize: 13, fontWeight: "bold", color: "#fff" }}>
               {props.children}
