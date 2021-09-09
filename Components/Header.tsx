@@ -6,10 +6,12 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../Routes";
 import { useNavigation } from "@react-navigation/core";
-import { useAppDispatch } from "../store/store-hooks";
+import { useAppDispatch, useAppSelector } from "../store/store-hooks";
 import { logOut } from "../store/UserSlice";
+import { showCartComponent } from "../store/CartShowSlice";
 const { PRIMARY_COLOR, BORDER_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList>;
+
 const Header = () => {
   const navigation = useNavigation<authScreenProp>();
   const dispatch = useAppDispatch();
@@ -21,20 +23,40 @@ const Header = () => {
     navigation.navigate("teste");
   };
 
+  const showCart = () => {
+    dispatch(showCartComponent());
+  };
+  const showCartButton = useAppSelector((state) => state.showCart.isShow);
+  console.log("ShowCartButton", showCartButton);
+
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.logoWrapper} onPress={goToMyBetsPage}>
         <Text style={styles.logoText}>TGL</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
-        <Icon
-          name="logout"
-          size={35}
-          color="#C1C1C1"
-          style={{ marginRight: 35, marginTop: 10 }}
-          onPress={logUserOut}
-        />
-      </TouchableOpacity>
+      <View style={{ flexDirection: "row" }}>
+        {showCartButton && (
+          <TouchableOpacity>
+            <Icon
+              name="cart-outline"
+              size={35}
+              color="#B5C401"
+              style={{ marginRight: 35, marginTop: 10 }}
+              onPress={showCart}
+            />
+          </TouchableOpacity>
+        )}
+
+        <TouchableOpacity>
+          <Icon
+            name="logout"
+            size={35}
+            color="#C1C1C1"
+            style={{ marginRight: 35, marginTop: 10 }}
+            onPress={logUserOut}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

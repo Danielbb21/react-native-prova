@@ -15,6 +15,8 @@ import Cart from "./Cart";
 import FilterGameButtons from "./FilterGameButtons";
 import GameInfo from "./GameInfo";
 import Number, { NumberChosed } from "./Number";
+import { hideCart, showCart } from "../store/CartShowSlice";
+
 interface Options {
   type: string;
   description: string;
@@ -30,6 +32,7 @@ interface CartOptions {
   numbers: number[];
   type: string;
   game_id: string;
+  date: string;
   color: string;
 }
 
@@ -49,6 +52,12 @@ const Bet = () => {
   const [numbersOfTheGame, setNumbersOfTheGame] = useState<number[]>([]);
   const [chosedNumbers, setChosedNumber] = useState<number[]>([]);
   const [cartNumbers, setCartNumber] = useState<CartOptions[]>([]);
+
+  const showCartComponent = useAppSelector(
+    (state) => state.showCart.showComponent
+  );
+
+  console.log("cart Numbers", cartNumbers);
   const fillNumbers = (maxNumbers: number, range: number): number[] => {
     var numeros = [];
 
@@ -59,12 +68,14 @@ const Bet = () => {
     }
     return numeros;
   };
+
   const comparaNumeros = (a: number, b: number): number => {
     if (a === b) return 0;
     if (a < b) return -1;
     if (a > b) return 1;
     else return 3;
   };
+
   const [filter, setFilter] = useState<string>("");
 
   const pickNumbersOfTheArray = useCallback((range: number) => {
@@ -73,7 +84,7 @@ const Bet = () => {
 
     setNumbersOfTheGame(sortedArray);
   }, []);
-  console.log("numbers", numbersOfTheGame);
+
   useEffect(() => {
     dispatch(getGameData(token));
   }, [token, dispatch]);
@@ -103,6 +114,14 @@ const Bet = () => {
     pickNumbersOfTheArray(range);
   }, [pickNumbersOfTheArray, games, dispatch, token]);
 
+  useEffect(() => {
+    if (chosedNumbers.length > 0) {
+      console.log("aquiiii");
+      dispatch(showCart());
+    } else {
+      dispatch(hideCart());
+    }
+  }, [chosedNumbers]);
   const setFilterHandler = (typeGame: string) => {
     const gameChosed = games.filter((game) => game.type === typeGame);
     setFilter(gameChosed[0].type);
@@ -129,6 +148,15 @@ const Bet = () => {
     });
     pickNumbersOfTheArray(range);
   };
+
+  const formatDate2 = (date: Date) => {
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let day = date.toDateString().split(" ")[2];
+
+    return `${day}/${month}/${year}`;
+  };
+
   const isPosibleToChoseTheNumber = (numberToBeChose: number): boolean => {
     const isAlreadyChosed = chosedNumbers.find(
       (num) => num === numberToBeChose
@@ -161,7 +189,6 @@ const Bet = () => {
     return true;
   };
 
-  console.log("numbers", chosedNumbers);
   const handleChoseNumber = (numberChosed: number) => {
     const isPosibleToChose = isPosibleToChoseTheNumber(numberChosed);
 
@@ -238,6 +265,7 @@ const Bet = () => {
         price: gameOptions.price,
         type: gameOptions.type,
         game_id: gameOptions.game_id,
+        date: formatDate2(new Date()),
       });
       return newArray;
     });
@@ -246,7 +274,8 @@ const Bet = () => {
   };
   return (
     <>
-      {/* <Cart /> */}
+      {showCartComponent && <Cart />}
+
       <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
         <Text
           style={{

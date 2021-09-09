@@ -1,11 +1,19 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { hideCartComponent } from "../store/CartShowSlice";
+import { useAppDispatch } from "../store/store-hooks";
 
 const Cart = () => {
+    const dispatch = useAppDispatch();
+
+    const closeCart = () =>{
+        dispatch(hideCartComponent());
+    }
   return (
     <View style={styles.cartContainer}>
       <TouchableOpacity
+      onPress= {closeCart}
         style={{ position: "absolute", top: 10, right: 0 }}
       >
         <Icon name="close" size={30} color="#B5C401" />
