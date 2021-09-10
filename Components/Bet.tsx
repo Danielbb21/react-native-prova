@@ -57,7 +57,6 @@ const Bet = () => {
     (state) => state.showCart.showComponent
   );
 
-  
   const fillNumbers = (maxNumbers: number, range: number): number[] => {
     var numeros = [];
 
@@ -116,7 +115,6 @@ const Bet = () => {
 
   useEffect(() => {
     if (chosedNumbers.length > 0) {
-      
       dispatch(showCart());
     } else {
       dispatch(hideCart());
@@ -271,11 +269,16 @@ const Bet = () => {
     });
 
     setChosedNumber([]);
-    dispatch(showCartComponent())
+    dispatch(showCartComponent());
+  };
+
+  const removeItem = (id: string) => {
+    console.log("id", id);
+    setCartNumber((previus) =>  previus.filter(element => element.id !== id));
   };
   return (
     <>
-      {showCartElement && <Cart items={cartNumbers} />}
+      {showCartElement && <Cart onRemove={removeItem} items={cartNumbers} />}
 
       <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
         <Text
@@ -319,7 +322,6 @@ const Bet = () => {
                 <FilterGameButtons
                   isNewGame={true}
                   chose={setFilterHandler.bind(null, game.type)}
-                  
                   key={game.id}
                   color={game.color}
                   name={game.type}

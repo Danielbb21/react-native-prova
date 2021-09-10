@@ -22,6 +22,7 @@ interface CartOptions {
 
 interface CartProps {
   items: CartOptions[];
+  onRemove: (id: string) => void;
 }
 
 const Cart: React.FC<CartProps> = (props) => {
@@ -36,6 +37,9 @@ const Cart: React.FC<CartProps> = (props) => {
   const totalPrice = prices.reduce((actual: number, next: number) => {
     return actual + next;
   }, 0);
+  const removeItemToCart = (id: string) =>{
+   props.onRemove(id);
+  }
   return (
     <View style={styles.cartContainer}>
       <TouchableOpacity
@@ -99,7 +103,13 @@ const Cart: React.FC<CartProps> = (props) => {
                         .replace(".", ",")}
                       )
                     </Text>
-                    <Icon name="trash-can-outline" color="#707070" size={20} />
+                    <TouchableOpacity onPress = {removeItemToCart.bind(null, cartElement.id)}>
+                      <Icon
+                        name="trash-can-outline"
+                        color="#707070"
+                        size={20}
+                      />
+                    </TouchableOpacity>
                   </View>
                   <Text
                     style={{
