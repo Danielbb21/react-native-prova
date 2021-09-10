@@ -6,9 +6,13 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { api } from "../api";
 import { hideCartComponent } from "../store/CartShowSlice";
-import { useAppDispatch } from "../store/store-hooks";
+import { getBetData } from "../store/CartSlice";
+import { useAppDispatch, useAppSelector } from "../store/store-hooks";
+import ActionButton from "./ActionButton";
 
 interface CartOptions {
   id: string;
@@ -23,10 +27,12 @@ interface CartOptions {
 interface CartProps {
   items: CartOptions[];
   onRemove: (id: string) => void;
+  onSave: () => void;
 }
 
 const Cart: React.FC<CartProps> = (props) => {
   const dispatch = useAppDispatch();
+  const token = useAppSelector((state) => state.user.token);
 
   //   const cart = [...props.items];
 
@@ -37,9 +43,46 @@ const Cart: React.FC<CartProps> = (props) => {
   const totalPrice = prices.reduce((actual: number, next: number) => {
     return actual + next;
   }, 0);
-  const removeItemToCart = (id: string) =>{
-   props.onRemove(id);
-  }
+  const removeItemToCart = (id: string) => {
+    props.onRemove(id);
+  };
+  const formatDate2 = (date: Date) => {
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let day = date.toDateString().split(" ")[2];
+
+    return `${year}-${month}-${day} ${date.toLocaleTimeString()}`;
+  };
+
+  const saveGame = () => {
+    // if (totalPrice < 30) {
+    //   Toast.show({
+    //     type: "error",
+    //     text1: "Error",
+    //     text2: "Value of cart is less than R$ 30,00",
+    //     visibilityTime: 1000,
+    //     autoHide: true,
+    //     topOffset: 30,
+    //     bottomOffset: 40,
+    //   });
+    //   return;
+    // }
+
+    // const date2 = formatDate2(new Date());
+
+    // const data = props.items.map((cart) => {
+    //   return {
+    //     gameNumbers: cart.numbers,
+    //     price: cart.price,
+    //     game_date: date2,
+    //     game_id: cart.game_id,
+    //   };
+    // });
+
+    // dispatch(getBetData(token, data));
+    props.onSave();
+  };
+
   return (
     <View style={styles.cartContainer}>
       <TouchableOpacity
@@ -64,7 +107,7 @@ const Cart: React.FC<CartProps> = (props) => {
           CART
         </Text>
       </TouchableOpacity>
-      <View style={{ maxHeight: 400 }}>
+      <View style={{ maxHeight: 300 }}>
         <ScrollView>
           {props.items.length > 0 &&
             props.items.map((cartElement) => {
@@ -103,7 +146,9 @@ const Cart: React.FC<CartProps> = (props) => {
                         .replace(".", ",")}
                       )
                     </Text>
-                    <TouchableOpacity onPress = {removeItemToCart.bind(null, cartElement.id)}>
+                    <TouchableOpacity
+                      onPress={removeItemToCart.bind(null, cartElement.id)}
+                    >
                       <Icon
                         name="trash-can-outline"
                         color="#707070"
@@ -141,7 +186,7 @@ const Cart: React.FC<CartProps> = (props) => {
         <View
           style={{
             position: "absolute",
-            top: 410,
+            top: 350,
             width: "80%",
             flexDirection: "row",
             justifyContent: "space-between",
@@ -165,11 +210,36 @@ const Cart: React.FC<CartProps> = (props) => {
             R${totalPrice.toFixed(2).toString().replace(".", ",")}
           </Text>
         </View>
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            top: 410,
+            width: 245,
+            height: 94,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#EBEBEB",
+            flexDirection: "row",
+          }}
+          onPress={saveGame}
+        >
+          <Text
+            style={{
+              color: "#B5C401",
+              fontSize: 30,
+              marginRight: 15,
+              fontWeight: "bold",
+              fontStyle: "italic",
+            }}
+          >
+            Save
+          </Text>
+          <Icon name="arrow-right" size={30} color="#B5C401" />
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
-
 export default Cart;
 
 const styles = StyleSheet.create({

@@ -4,13 +4,15 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import UserSlice from './UserSlice';
 import GameSlice from './GameSlice';
 import  CartShowSlice  from './CartShowSlice';
+import CartSlice from './CartSlice';
 
 
 export const store = configureStore({
     reducer: {
         user: UserSlice,
         game: GameSlice,
-        showCart: CartShowSlice
+        showCart: CartShowSlice,
+        cart: CartSlice
     }
 });
 

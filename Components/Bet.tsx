@@ -16,6 +16,7 @@ import FilterGameButtons from "./FilterGameButtons";
 import GameInfo from "./GameInfo";
 import Number, { NumberChosed } from "./Number";
 import { hideCart, showCart, showCartComponent } from "../store/CartShowSlice";
+import { getBetData } from "../store/CartSlice";
 
 interface Options {
   type: string;
@@ -187,6 +188,49 @@ const Bet = () => {
     return true;
   };
 
+  const formatDate = (date: Date) => {
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let day = date.toDateString().split(" ")[2];
+
+    return `${year}-${month}-${day} ${date.toLocaleTimeString()}`;
+  };
+  
+  const saveBets = () => {
+
+    const prices = cartNumbers.map((p) => p.price);
+    const totalPrice = prices.reduce((actual: number, next: number) => {
+      return actual + next;
+    }, 0);
+
+    if (totalPrice < 30) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Value of cart is less than R$ 30,00",
+        visibilityTime: 1000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+      return;
+    }
+
+    const date2 = formatDate(new Date());
+
+    const data = cartNumbers.map((cart) => {
+      return {
+        gameNumbers: cart.numbers,
+        price: cart.price,
+        game_date: date2,
+        game_id: cart.game_id,
+      };
+    });
+
+    dispatch(getBetData(token, data));
+    setCartNumber([]);
+  };
+
   const handleChoseNumber = (numberChosed: number) => {
     const isPosibleToChose = isPosibleToChoseTheNumber(numberChosed);
 
@@ -274,11 +318,11 @@ const Bet = () => {
 
   const removeItem = (id: string) => {
     console.log("id", id);
-    setCartNumber((previus) =>  previus.filter(element => element.id !== id));
+    setCartNumber((previus) => previus.filter((element) => element.id !== id));
   };
   return (
     <>
-      {showCartElement && <Cart onRemove={removeItem} items={cartNumbers} />}
+      {showCartElement && <Cart onRemove={removeItem} items={cartNumbers} onSave = {saveBets}/>}
 
       <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
         <Text
