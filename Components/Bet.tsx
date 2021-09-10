@@ -195,9 +195,8 @@ const Bet = () => {
 
     return `${year}-${month}-${day} ${date.toLocaleTimeString()}`;
   };
-  
-  const saveBets = () => {
 
+  const saveBets = () => {
     const prices = cartNumbers.map((p) => p.price);
     const totalPrice = prices.reduce((actual: number, next: number) => {
       return actual + next;
@@ -322,7 +321,11 @@ const Bet = () => {
   };
   return (
     <>
-      {showCartElement && <Cart onRemove={removeItem} items={cartNumbers} onSave = {saveBets}/>}
+      {showCartElement && (
+        <View style={{ backgroundColor: "#FFFFFF", opacity: 0.8, zIndex: 151581, width: '100%', height: '100%' }}>
+          <Cart onRemove={removeItem} items={cartNumbers} onSave={saveBets} />
+        </View>
+      )}
 
       <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
         <Text
