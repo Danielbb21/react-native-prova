@@ -334,7 +334,7 @@ const Bet = () => {
           <Cart onRemove={removeItem} items={cartNumbers} onSave={saveBets} />
         </View>
       )}
-
+  
       <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
         <Text
           style={{
@@ -363,6 +363,7 @@ const Bet = () => {
           {games.map((game) => {
             if (filter === game.type) {
               return (
+                <View style={{padding: 5}}>
                 <FilterGameButtons
                   isNewGame={true}
                   chose={setFilterHandler.bind(null, game.type)}
@@ -371,9 +372,11 @@ const Bet = () => {
                   name={game.type}
                   isClicked={true}
                 />
+                </View>
               );
             } else {
               return (
+                <View style={{padding: 5}}>
                 <FilterGameButtons
                   isNewGame={true}
                   chose={setFilterHandler.bind(null, game.type)}
@@ -382,6 +385,7 @@ const Bet = () => {
                   name={game.type}
                   isClicked={false}
                 />
+                </View>
               );
             }
           })}

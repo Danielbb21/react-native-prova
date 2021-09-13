@@ -22,7 +22,7 @@ const Header = () => {
   const goToMyBetsPage = () => {
     // navigation.navigate("teste");
     
-    navigation.navigate('Home2');
+    navigation.navigate('Home');
   };
 
   const showCart = () => {
