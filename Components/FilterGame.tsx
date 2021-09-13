@@ -32,7 +32,7 @@ const FilterGame = () => {
 
   useEffect(() => {
     setBetGame(bets);
-  } ,[])
+  } ,[bets])
 
   useEffect(() => {
     dispatch(getGameData(token));
@@ -46,7 +46,7 @@ const FilterGame = () => {
     }
 
     for (let i = 0; i < gameFilters.length; i++) {
-      // console.log('i', gameFilters[i]);
+      
       for (let j = 0; j < bets.length; j++) {
         if (bets[j].type === gameFilters[i]) {
           console.log("betSelected", bets[j]);
