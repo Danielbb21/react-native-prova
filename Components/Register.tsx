@@ -224,7 +224,7 @@ const Register = () => {
       </View>
       <TouchableOpacity
         style={styles.signInButton}
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("Auth")}
       >
         <View style={styles.SignInText}>
           <View

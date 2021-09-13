@@ -16,12 +16,12 @@ import Account from "./Pages/Account";
 import NewBet from "./Pages/NewBet";
 
 export type RootStackParamList = {
-  Home: undefined;
+  Auth: undefined;
   Reset: undefined;
   Registration: undefined;
   teste: undefined;
   MyBets: undefined;
-  Home2:undefined;
+  Home:undefined;
 };
 
 interface Prop {
@@ -67,10 +67,10 @@ export const Routes = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Auth"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Home" component={Authentication} />
+      <Stack.Screen name="Auth" component={Authentication} />
       <Stack.Screen name="Reset" component={ResetPassword} />
 
       <Stack.Screen name="Registration" component={Registration} />
@@ -88,7 +88,7 @@ const T2 = () => {
           let iconName;
           let size;
           switch (route.name) {
-            case "Home2":
+            case "Home":
               iconName = "home";
               size = 30;
               break;
@@ -141,7 +141,7 @@ const T2 = () => {
       })}
     >
       <Tab.Screen
-        name="Home2"
+        name="Home"
         component={MyBets}
         // options={() => ({
         //   tabBarIcon: ({color,focused,size }) => (

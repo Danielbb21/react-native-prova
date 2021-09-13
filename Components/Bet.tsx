@@ -322,7 +322,15 @@ const Bet = () => {
   return (
     <>
       {showCartElement && (
-        <View style={{ backgroundColor: "#FFFFFF", opacity: 0.8, zIndex: 151581, width: '100%', height: '100%' }}>
+        <View
+          style={{
+            backgroundColor: "#FFFFFF",
+            opacity: 0.8,
+            zIndex: 151581,
+            width: "100%",
+            height: "100%",
+          }}
+        >
           <Cart onRemove={removeItem} items={cartNumbers} onSave={saveBets} />
         </View>
       )}
@@ -406,21 +414,26 @@ const Bet = () => {
             </Text>
           </View>
         )}
-
-        <View style={{ flexDirection: "row" }}>
-          {chosedNumbers.length > 0 &&
-            chosedNumbers.map((num) => {
-              return (
-                <NumberChosed
-                  key={Math.random().toString()}
-                  colorGame={gameOptions?.color}
-                  onRemove={removeNumber.bind(null, num)}
-                >
-                  {num}
-                </NumberChosed>
-              );
-            })}
-        </View>
+        
+          <ScrollView style={{ flex: 1 }}>
+            <View style={{ flexDirection: "row", flexWrap: 'wrap' }}>
+              {chosedNumbers.length > 0 &&
+                chosedNumbers.map((num) => {
+                  return (
+                    <View style= {{paddingBottom: 25}} key={Math.random().toString()}>
+                    <NumberChosed
+                      key={Math.random().toString()}
+                      colorGame={gameOptions?.color}
+                      onRemove={removeNumber.bind(null, num)}
+                    >
+                      {num}
+                    </NumberChosed>
+                    </View>
+                  );
+                })}
+            </View>
+          </ScrollView>
+        
         <View style={{ flexDirection: "row", marginTop: 25 }}>
           {chosedNumbers.length > 0 && (
             <>

@@ -139,7 +139,7 @@ const Reset = () => {
           </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.signInButton} onPress = {() => navigation.navigate('Home')}>
+      <TouchableOpacity style={styles.signInButton} onPress = {() => navigation.navigate('Auth')}>
         <View style={styles.SignInText}>
           <View
             style={{
