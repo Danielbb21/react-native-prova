@@ -21,6 +21,7 @@ export type RootStackParamList = {
   Registration: undefined;
   teste: undefined;
   MyBets: undefined;
+  Home2:undefined;
 };
 
 interface Prop {
@@ -87,7 +88,7 @@ const T2 = () => {
           let iconName;
           let size;
           switch (route.name) {
-            case "Home":
+            case "Home2":
               iconName = "home";
               size = 30;
               break;
@@ -140,7 +141,7 @@ const T2 = () => {
       })}
     >
       <Tab.Screen
-        name="Home"
+        name="Home2"
         component={MyBets}
         // options={() => ({
         //   tabBarIcon: ({color,focused,size }) => (

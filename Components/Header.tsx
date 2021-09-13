@@ -20,7 +20,9 @@ const Header = () => {
     dispatch(logOut());
   };
   const goToMyBetsPage = () => {
-    navigation.navigate("teste");
+    // navigation.navigate("teste");
+    
+    navigation.navigate('Home2');
   };
 
   const showCart = () => {
