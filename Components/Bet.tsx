@@ -15,8 +15,11 @@ import Cart from "./Cart";
 import FilterGameButtons from "./FilterGameButtons";
 import GameInfo from "./GameInfo";
 import Number, { NumberChosed } from "./Number";
-import { hideCart, showCart, showCartComponent } from "../store/CartShowSlice";
+import { hideCart, hideCartComponent, showCart, showCartComponent } from "../store/CartShowSlice";
 import { getBetData } from "../store/CartSlice";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/core";
+import { RootStackParamList } from "../Routes";
 
 interface Options {
   type: string;
@@ -40,8 +43,11 @@ interface CartOptions {
 interface ParamTypes {
   id: string;
 }
+type authScreenProp = StackNavigationProp<RootStackParamList>;
 
 const Bet = () => {
+  const navigation = useNavigation<authScreenProp>();
+
   const allGames = useAppSelector((state) => state.game.items);
   const [gameFilters, setGameFilters] = useState<string[]>([]);
   const dispatch = useAppDispatch();
@@ -223,11 +229,17 @@ const Bet = () => {
         price: cart.price,
         game_date: date2,
         game_id: cart.game_id,
+        
       };
     });
 
     dispatch(getBetData(token, data));
     setCartNumber([]);
+    dispatch(hideCartComponent());
+    setTimeout(() =>{
+      navigation.navigate('Home');
+      
+    }, 1500)
   };
 
   const handleChoseNumber = (numberChosed: number) => {

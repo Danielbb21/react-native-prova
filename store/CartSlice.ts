@@ -5,7 +5,7 @@ import { api } from "../api";
 import { AppDispatch, AppThunk } from "./store";
 
 interface CartObj {
-
+    id: string;
     maxNumber: number;
     type: string;
     price: string;
@@ -31,9 +31,9 @@ export const cartSlice = createSlice({
     reducers: {
         addToCart: (state, action: PayloadAction<CartObj[]>) => {
             console.log('action', action.payload);
-
+            console.log('AQUIIIIIii', action.payload);
             action.payload.forEach((game) => {
-                state.items.push(game);
+                state.items.push({...game, id: Math.random().toString()});
             });
 
 
