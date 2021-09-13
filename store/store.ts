@@ -5,6 +5,7 @@ import UserSlice from './UserSlice';
 import GameSlice from './GameSlice';
 import  CartShowSlice  from './CartShowSlice';
 import CartSlice from './CartSlice';
+import  UserShowSlice from './ShowUpdate';
 
 
 export const store = configureStore({
@@ -12,7 +13,8 @@ export const store = configureStore({
         user: UserSlice,
         game: GameSlice,
         showCart: CartShowSlice,
-        cart: CartSlice
+        cart: CartSlice,
+        update: UserShowSlice
     }
 });
 

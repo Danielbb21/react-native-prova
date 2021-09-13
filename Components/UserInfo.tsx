@@ -7,8 +7,10 @@ import {
   ScrollView,
 } from "react-native";
 import { getGameData } from "../store/GameSlice";
+import { showUpdate } from "../store/ShowUpdate";
 import { useAppDispatch, useAppSelector } from "../store/store-hooks";
 import { getUserInfo } from "../store/UserSlice";
+import UpdateUser from "./UpdateUser";
 
 interface UserGame {
   type: string;
@@ -23,7 +25,9 @@ const UserInfo = () => {
   const token = useAppSelector((state) => state.user.token);
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.info);
-
+  // const [userUpdate, setUserUpdate] = useState<boolean>(false);
+  const userUpdate = useAppSelector(state =>  state.update.isShow);
+  
   useEffect(() => {
     
     dispatch(getGameData(token));
@@ -69,7 +73,8 @@ const UserInfo = () => {
   });
 
   return (
-    <View style={styles.fatherContainer}>
+    <>
+    {!userUpdate &&<View style={styles.fatherContainer}>
       <View style={styles.container}>
         <Text style={{ ...styles.textStyle, marginTop: 10, fontSize: 20 }}>
           Your information
@@ -116,7 +121,16 @@ const UserInfo = () => {
           </View>
         </ScrollView>
         <TouchableOpacity
-          style={{ ...styles.choseOptionButton, marginTop: 80 }}
+          style={{ ...styles.choseOptionButton, marginTop: 10}}
+          onPress={() => dispatch(showUpdate())}
+        >
+          <Text style={{ color: "#fff", fontSize: 18 }}>
+           
+            Update data
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ ...styles.choseOptionButton, marginTop: 30 }}
           onPress={perPriceHandler}
         >
           <Text style={{ color: "#fff", fontSize: 18 }}>
@@ -125,7 +139,11 @@ const UserInfo = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </View> }
+    {userUpdate && 
+      <UpdateUser />
+    }
+    </>
   );
 };
 
