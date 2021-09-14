@@ -21,7 +21,7 @@ export type RootStackParamList = {
   Registration: undefined;
   teste: undefined;
   MyBets: undefined;
-  Home:undefined;
+  Home: undefined;
 };
 
 interface Prop {
@@ -99,7 +99,35 @@ const T2 = () => {
             case "Game":
               iconName = "edit";
               size = 15;
-              return <Image source={require("./assets/newbeticon.png")} />;
+              return (
+                <View
+                  style={{
+                    height: 93,
+                    width: 93,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#B5C300",
+                    borderRadius: 50,
+                    marginBottom: 20,
+                    borderWidth: 5,
+                    borderColor: "#fff",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 5,
+                    },
+                    shadowOpacity: 0.36,
+                    shadowRadius: 6.68,
+
+                    elevation: 11,
+                  }}
+                >
+                  <Image
+                    style={{ width: "70%", height: "80%", borderRadius: 5 }}
+                    source={require("./assets/newbeticon.png")}
+                  />
+                </View>
+              );
             default:
               iconName = "circle";
               size = 10;

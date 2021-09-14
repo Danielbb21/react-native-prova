@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: "#868686",
-    width: 196,
+    width: '100%',
     flexWrap: "wrap",
   },
 });
