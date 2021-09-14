@@ -166,34 +166,49 @@ const FilterGame = () => {
   };
   let allPages: number[] = [];
 
-  for (let i = 0; i < betsData!.lastPage; i++) {
-    allPages.push(i);
+  if(betsData?.lastPage){
+    for (let i = 0; i < betsData.lastPage; i++) {
+      allPages.push(i);
+    }
   }
+ 
   const changePage = (page: number) => {
     console.log("PAGE", page + 1);
     setPageChosed(page);
     fetchData(page, gameId);
   };
   return (
-    <View style={{ top: 100, marginLeft: 20 }}>
-      <Text
-        style={{
-          fontSize: 22,
-          color: PRIMARY_COLOR,
-          alignItems: "center",
-          fontWeight: "bold",
-          fontStyle: "italic",
-        }}
-      >
-        Recent Games
-      </Text>
-      <Text style={{ fontSize: 17, fontStyle: "italic", color: "#868686" }}>
-        Filters
-      </Text>
-      <View style={styles.buttons}>
-        {allGames.length > 0 &&
-          allGames.map((game) => {
-            if (gameFilters.find((g) => g === game.type)) {
+    <View style={{ top: 100, marginLeft: 20, flex: 1, opacity: 0.95 }}>
+      <View style={{   width: "100%" }}>
+        <Text
+          style={{
+            fontSize: 22,
+            color: PRIMARY_COLOR,
+            alignItems: "center",
+            fontWeight: "bold",
+            fontStyle: "italic",
+          }}
+        >
+          Recent Games
+        </Text>
+        <Text style={{ fontSize: 17, fontStyle: "italic", color: "#868686" }}>
+          Filters
+        </Text>
+        <View style={styles.buttons}>
+          {allGames.length > 0 &&
+            allGames.map((game) => {
+              if (gameFilters.find((g) => g === game.type)) {
+                return (
+                  <FilterGameButtons
+                    isNewGame={false}
+                    chose={setFilterHandler.bind(null, game.type)}
+                    key={game.id}
+                    color={game.color}
+                    name={game.type}
+                    isClicked={true}
+                  />
+                );
+              }
               return (
                 <FilterGameButtons
                   isNewGame={false}
@@ -201,22 +216,13 @@ const FilterGame = () => {
                   key={game.id}
                   color={game.color}
                   name={game.type}
-                  isClicked={true}
+                  isClicked={false}
                 />
               );
-            }
-            return (
-              <FilterGameButtons
-                isNewGame={false}
-                chose={setFilterHandler.bind(null, game.type)}
-                key={game.id}
-                color={game.color}
-                name={game.type}
-                isClicked={false}
-              />
-            );
-          })}
+            })}
+        </View>
       </View>
+
       <View style={{ height: 400 }}>
         <ScrollView>
           {betsData &&
@@ -268,13 +274,19 @@ const FilterGame = () => {
               );
             })}
         </ScrollView>
-        <View style = {styles.buttonWrapper}>
+        <View style={styles.buttonWrapper}>
           {allPages.length > 1 &&
             allPages.map((page) => {
               if (pageChosed === page) {
                 return (
-                  <TouchableOpacity onPress={changePage.bind(this, page)} style = {{...styles.pageChanger, backgroundColor: '#D3D3D3'}}>
-                    <Text style ={{fontWeight: 'bold'}} >{page + 1}</Text>
+                  <TouchableOpacity
+                    onPress={changePage.bind(this, page)}
+                    style={{
+                      ...styles.pageChanger,
+                      backgroundColor: "#D3D3D3",
+                    }}
+                  >
+                    <Text style={{ fontWeight: "bold" }}>{page + 1}</Text>
                   </TouchableOpacity>
                   //   <ButtonFilter onClick={changePage.bind(this, page)} isClicked = {true}>
 
@@ -282,7 +294,10 @@ const FilterGame = () => {
                 );
               }
               return (
-                <TouchableOpacity onPress={changePage.bind(this, page)} style ={styles.pageChanger}>
+                <TouchableOpacity
+                  onPress={changePage.bind(this, page)}
+                  style={styles.pageChanger}
+                >
                   <Text>{page + 1}</Text>
                 </TouchableOpacity>
                 // <ButtonFilter onClick={changePage.bind(this, page)}>
@@ -325,14 +340,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 5,
     right: 10,
-    
   },
-  pageChanger:{
+  pageChanger: {
     height: 30,
     width: 30,
     borderWidth: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 5
-  }
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 5,
+  },
 });
