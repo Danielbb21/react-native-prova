@@ -150,22 +150,36 @@ const T2 = () => {
 
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarLabelStyle: {
+        
+        // tabBarLabel: ({focused, color}) =>{
+        //   if(focused){
+        //     color: 'green'
+        //   }
+        //   else{
+        //     color: 'red'
+        //   }
+        // },
+        tabBarLabelStyle:  {
           fontSize: 20,
           margin: 0,
           padding: 0,
+          
+          
         },
         tabBarOptions: {
-          activeTintColor: "#eb2929",
-          inactiveTintColor: "#fff",
+          activeTintColor: "yellow",
+          inactiveTintColor: "black",
         },
-
+       
         tabBarStyle: {
           position: "absolute",
           bottom: 0,
           backgroundColor: "#FFFFFF",
           height: 71,
+          
         },
+        
+        
       })}
     >
       <Tab.Screen

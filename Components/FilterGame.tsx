@@ -6,6 +6,8 @@ import { getUserInfo } from "../store/UserSlice";
 import FilterGameButtons from "./FilterGameButtons";
 import { colors } from "../utils";
 import Number, { NumberChosed } from "./Number";
+import { api } from "../api";
+import useApi from "../hooks/use-api";
 const { PRIMARY_COLOR } = colors;
 
 interface CartObj {
@@ -20,6 +22,48 @@ interface CartObj {
   user_id: number;
   id: string;
 }
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  password?: string;
+  token?: string;
+  token_created_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+interface Game {
+  id: string;
+  type: string;
+  description: string;
+  range: number;
+  price: number;
+  "max-number": number;
+  color: string;
+  "min-cart-value": number;
+  created_at: string;
+  updated_at: string;
+}
+interface Data {
+  id: number;
+  gameNumbers: string;
+  user_id: number;
+  game_id: number;
+  price: number;
+  game_date: string;
+  created_at: string;
+  updated_at: string;
+  user: User;
+  game: Game;
+}
+
+interface Bets {
+  total: number;
+  perPage: number;
+  page: number;
+  lastPage: number;
+  data?: Data[];
+}
 
 const FilterGame = () => {
   const token = useAppSelector((state) => state.user.token);
@@ -29,24 +73,45 @@ const FilterGame = () => {
   const [gameFilters, setGameFilters] = useState<string[]>([]);
   const bets = useAppSelector((state) => state.cart.items);
   const [betGame, setBetGame] = useState(bets);
+  const [gameId, setGameId] = useState<string[]>([]);
+  const [teste, setTeste] = useState<Bets[]>([]);
+  const data = teste.map((t) => t.data);
 
-  useEffect(() => {
-    setBetGame(bets);
-  } ,[bets])
+  const { betsData, fetchData, isLoading } = useApi();
+  const [pageChosed, setPageChosed] = useState<number>();
+  console.log("Game", gameFilters);
+  console.log("teste", teste);
+  // useEffect(() => {
+  //   setBetGame(bets);
+  // }, [bets]);
 
+  
   useEffect(() => {
     dispatch(getGameData(token));
-
+    fetchData(1);
+    setPageChosed(0);
     dispatch(getUserInfo(token));
-  }, [token, dispatch]);
-
+  }, [token, dispatch, fetchData]);
+  console.log('bets', bets);
   useEffect(() => {
+    console.log("GAME_ID", gameId);
+    fetchData(0, gameId);
+    // api
+    //   .get(`/gamble?gamble&page=1&games=${gameId}`, {
+    //     headers: { Authorization: `Bearer ${token}` },
+    //   })
+    //   .then((response) => {
+    //     // console.log("RESPONse", response.data);
+    //     setTeste(response.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log("ERRR", err.message);
+    //   });
     if (gameFilters.length > 0) {
       setBetGame([]);
     }
 
     for (let i = 0; i < gameFilters.length; i++) {
-      
       for (let j = 0; j < bets.length; j++) {
         if (bets[j].type === gameFilters[i]) {
           console.log("betSelected", bets[j]);
@@ -64,6 +129,23 @@ const FilterGame = () => {
 
   const setFilterHandler = (type: string) => {
     const gameFind = gameFilters.find((game) => game === type);
+    const game_teste = allGames.find((game) => game.type === type);
+    console.log("game_teste", game_teste);
+    if (game_teste) {
+      const gameAlreadyExist = gameId.find((game) => game === game_teste.id);
+      if (!gameAlreadyExist) {
+        setGameId((previus) => {
+          const arr = [...previus];
+          arr.push(game_teste.id);
+          return arr;
+        });
+      } else {
+        setGameId((game) => {
+          const novo = [...game];
+          return novo.filter((g) => g !== game_teste.id);
+        });
+      }
+    }
     if (!gameFind) {
       setGameFilters((previus) => {
         const array = [...previus];
@@ -122,51 +204,54 @@ const FilterGame = () => {
       </View>
       <View style={{ height: 400 }}>
         <ScrollView>
-          {betGame.map((bet) => {
-            return (
-              <View
-                key={Math.random().toString()}
-                style={{
-                  ...styles.betInfo,
-                  borderLeftWidth: 6,
-                  borderLeftColor: bet.color,
-                }}
-              >
-                <Text style={{ ...styles.betNumbers }}>
-                  {bet.gameNumbers.toString()}
-                </Text>
+          {betsData &&
+            betsData.data &&
+            betsData?.data.map((bet) => {
+              return (
                 <View
+                  key={Math.random().toString()}
                   style={{
-                    width: "90%",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginTop: 7,
+                    ...styles.betInfo,
+                    borderLeftWidth: 6,
+                    borderLeftColor: bet.game.color,
                   }}
                 >
-                  <Text
+                  <Text style={{ ...styles.betNumbers }}>
+                    {bet.gameNumbers.toString()}
+                  </Text>
+                  <View
                     style={{
-                      color: "#868686",
-                      fontSize: 15,
-                      fontWeight: "normal",
+                      width: "90%",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginTop: 7,
                     }}
                   >
-                    {bet.date_game} - (R$ {bet.price.replace(".", ",")})
+                    <Text
+                      style={{
+                        color: "#868686",
+                        fontSize: 15,
+                        fontWeight: "normal",
+                      }}
+                    >
+                      {bet.game_date} - (R${" "}
+                      {bet.price.toFixed(2).toString().replace(".", ",")})
+                    </Text>
+                  </View>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      fontStyle: "italic",
+                      color: bet.game.color,
+                    }}
+                  >
+                    {bet.game.type}
                   </Text>
                 </View>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "bold",
-                    fontStyle: "italic",
-                    color: bet.color,
-                  }}
-                >
-                  {bet.type}
-                </Text>
-              </View>
-            );
-          })}
+              );
+            })}
         </ScrollView>
       </View>
     </View>
@@ -194,7 +279,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: "#868686",
-    width: '100%',
+    width: "100%",
     flexWrap: "wrap",
   },
 });
