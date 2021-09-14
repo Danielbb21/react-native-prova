@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { getGameData } from "../store/GameSlice";
 import { useAppDispatch, useAppSelector } from "../store/store-hooks";
 import { getUserInfo } from "../store/UserSlice";
@@ -85,14 +91,13 @@ const FilterGame = () => {
   //   setBetGame(bets);
   // }, [bets]);
 
-  
   useEffect(() => {
     dispatch(getGameData(token));
     fetchData(1);
     setPageChosed(0);
     dispatch(getUserInfo(token));
   }, [token, dispatch, fetchData]);
-  console.log('bets', bets);
+  console.log("bets", bets);
   useEffect(() => {
     console.log("GAME_ID", gameId);
     fetchData(0, gameId);
@@ -158,6 +163,16 @@ const FilterGame = () => {
       const array = [...previus];
       return array.filter((element) => element !== type);
     });
+  };
+  let allPages: number[] = [];
+
+  for (let i = 0; i < betsData!.lastPage; i++) {
+    allPages.push(i);
+  }
+  const changePage = (page: number) => {
+    console.log("PAGE", page + 1);
+    setPageChosed(page);
+    fetchData(page, gameId);
   };
   return (
     <View style={{ top: 100, marginLeft: 20 }}>
@@ -253,6 +268,29 @@ const FilterGame = () => {
               );
             })}
         </ScrollView>
+        <View style = {styles.buttonWrapper}>
+          {allPages.length > 1 &&
+            allPages.map((page) => {
+              if (pageChosed === page) {
+                return (
+                  <TouchableOpacity onPress={changePage.bind(this, page)} style = {{...styles.pageChanger, backgroundColor: '#D3D3D3'}}>
+                    <Text style ={{fontWeight: 'bold'}} >{page + 1}</Text>
+                  </TouchableOpacity>
+                  //   <ButtonFilter onClick={changePage.bind(this, page)} isClicked = {true}>
+
+                  // </ButtonFilter>
+                );
+              }
+              return (
+                <TouchableOpacity onPress={changePage.bind(this, page)} style ={styles.pageChanger}>
+                  <Text>{page + 1}</Text>
+                </TouchableOpacity>
+                // <ButtonFilter onClick={changePage.bind(this, page)}>
+                //   {page + 1}
+                // </ButtonFilter>
+              );
+            })}
+        </View>
       </View>
     </View>
   );
@@ -282,4 +320,19 @@ const styles = StyleSheet.create({
     width: "100%",
     flexWrap: "wrap",
   },
+  buttonWrapper: {
+    flexDirection: "row",
+    position: "absolute",
+    bottom: 5,
+    right: 10,
+    
+  },
+  pageChanger:{
+    height: 30,
+    width: 30,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 5
+  }
 });
