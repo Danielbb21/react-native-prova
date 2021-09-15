@@ -15,7 +15,12 @@ import Cart from "./Cart";
 import FilterGameButtons from "./FilterGameButtons";
 import GameInfo from "./GameInfo";
 import Number, { NumberChosed } from "./Number";
-import { hideCart, hideCartComponent, showCart, showCartComponent } from "../store/CartShowSlice";
+import {
+  hideCart,
+  hideCartComponent,
+  showCart,
+  showCartComponent,
+} from "../store/CartShowSlice";
 import { getBetData } from "../store/CartSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/core";
@@ -83,7 +88,7 @@ const Bet = () => {
   };
 
   const [filter, setFilter] = useState<string>("");
-
+  const [showGameInfo, setShowGameInfo] = useState<boolean>(true);
   const pickNumbersOfTheArray = useCallback((range: number) => {
     const arrayOfNumbers = fillNumbers(range, range);
     const sortedArray = arrayOfNumbers.sort(comparaNumeros);
@@ -229,22 +234,20 @@ const Bet = () => {
         price: cart.price,
         game_date: date2,
         game_id: cart.game_id,
-        
       };
     });
 
     dispatch(getBetData(token, data));
     setCartNumber([]);
     dispatch(hideCartComponent());
-    setTimeout(() =>{
-      navigation.navigate('Home');
-      
-    }, 1500)
+    setTimeout(() => {
+      navigation.navigate("Home");
+    }, 1500);
   };
 
   const handleChoseNumber = (numberChosed: number) => {
     const isPosibleToChose = isPosibleToChoseTheNumber(numberChosed);
-
+    setShowGameInfo(true);
     if (isPosibleToChose) {
       setChosedNumber((previusState) => {
         let newArray = [...previusState];
@@ -346,151 +349,190 @@ const Bet = () => {
           <Cart onRemove={removeItem} items={cartNumbers} onSave={saveBets} />
         </View>
       )}
-  
-      <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
-        <Text
-          style={{
-            fontSize: 22,
-            color: "#707070",
-            fontWeight: "bold",
-            fontStyle: "italic",
-            textTransform: "uppercase",
-            marginBottom: 15,
-            marginTop: 25,
-          }}
-        >
-          NEW BET FOR {gameOptions?.type}
-        </Text>
-        <Text
-          style={{
-            fontSize: 17,
-            color: "#868686",
-            fontStyle: "italic",
-            marginBottom: 20,
-          }}
-        >
-          Chose a game
-        </Text>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%" }}>
-          {games.map((game) => {
-            if (filter === game.type) {
-              return (
-                <View style={{padding: 5}}>
-                <FilterGameButtons
-                  isNewGame={true}
-                  chose={setFilterHandler.bind(null, game.type)}
-                  key={game.id}
-                  color={game.color}
-                  name={game.type}
-                  isClicked={true}
-                />
-                </View>
-              );
-            } else {
-              return (
-                <View style={{padding: 5}}>
-                <FilterGameButtons
-                  isNewGame={true}
-                  chose={setFilterHandler.bind(null, game.type)}
-                  key={Math.random().toString()}
-                  color={game.color}
-                  name={game.type}
-                  isClicked={false}
-                />
-                </View>
-              );
-            }
-          })}
+      {!showGameInfo && (
+        <View style={{ width: '100%', justifyContent: 'center', height: 100, alignItems: 'center', top: 80, zIndex:8484, marginTop: 10 }}>
+          <TouchableOpacity onPress={() => setShowGameInfo(true)} >
+            <View
+              style={{
+                height: 6,
+                width: 36,
+                backgroundColor: "#C1C1C1",
+                borderRadius: 5,
+                marginBottom: 10,
+              }}
+            ></View>
+          </TouchableOpacity>
         </View>
-
-        {chosedNumbers.length === 0 && (
-          <View>
-            <Text
-              style={{
-                color: "#868686",
-                fontSize: 17,
-                fontWeight: "bold",
-                fontStyle: "italic",
-                marginTop: 20,
-              }}
-            >
-              Fill your bet
-            </Text>
-
-            <Text
-              style={{
-                color: "#868686",
-                fontSize: 17,
-                fontWeight: "bold",
-                fontStyle: "italic",
-                marginTop: 20,
-              }}
-            >
-              {gameOptions?.description}
-            </Text>
+      )}
+      {showGameInfo && (
+        <View style={{ ...styles.headerContainer, paddingLeft: 20 }}>
+          <Text
+            style={{
+              fontSize: 22,
+              color: "#707070",
+              fontWeight: "bold",
+              fontStyle: "italic",
+              textTransform: "uppercase",
+              marginBottom: 15,
+              marginTop: 25,
+            }}
+          >
+            NEW BET FOR {gameOptions?.type}
+          </Text>
+          <Text
+            style={{
+              fontSize: 17,
+              color: "#868686",
+              fontStyle: "italic",
+              marginBottom: 20,
+            }}
+          >
+            Chose a game
+          </Text>
+          <View
+            style={{ flexDirection: "row", flexWrap: "wrap", width: "100%" }}
+          >
+            {games.map((game) => {
+              if (filter === game.type) {
+                return (
+                  <View style={{ padding: 5 }}>
+                    <FilterGameButtons
+                      isNewGame={true}
+                      chose={setFilterHandler.bind(null, game.type)}
+                      key={game.id}
+                      color={game.color}
+                      name={game.type}
+                      isClicked={true}
+                    />
+                  </View>
+                );
+              } else {
+                return (
+                  <View style={{ padding: 5 }}>
+                    <FilterGameButtons
+                      isNewGame={true}
+                      chose={setFilterHandler.bind(null, game.type)}
+                      key={Math.random().toString()}
+                      color={game.color}
+                      name={game.type}
+                      isClicked={false}
+                    />
+                  </View>
+                );
+              }
+            })}
           </View>
-        )}
-        
+
+          {chosedNumbers.length === 0 && (
+            <View>
+              <Text
+                style={{
+                  color: "#868686",
+                  fontSize: 17,
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  marginTop: 20,
+                }}
+              >
+                Fill your bet
+              </Text>
+
+              <Text
+                style={{
+                  color: "#868686",
+                  fontSize: 17,
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  marginTop: 20,
+                }}
+              >
+                {gameOptions?.description}
+              </Text>
+            </View>
+          )}
+
           <ScrollView style={{ flex: 1 }}>
-            <View style={{ flexDirection: "row", flexWrap: 'wrap' }}>
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
               {chosedNumbers.length > 0 &&
                 chosedNumbers.map((num) => {
                   return (
-                    <View style= {{paddingBottom: 25}} key={Math.random().toString()}>
-                    <NumberChosed
+                    <View
+                      style={{ paddingBottom: 25 }}
                       key={Math.random().toString()}
-                      colorGame={gameOptions?.color}
-                      onRemove={removeNumber.bind(null, num)}
                     >
-                      {num}
-                    </NumberChosed>
+                      <NumberChosed
+                        key={Math.random().toString()}
+                        colorGame={gameOptions?.color}
+                        onRemove={removeNumber.bind(null, num)}
+                      >
+                        {num}
+                      </NumberChosed>
                     </View>
                   );
                 })}
             </View>
           </ScrollView>
-        
-        <View style={{ flexDirection: "row", marginTop: 25 }}>
-          {chosedNumbers.length > 0 && (
-            <>
-              <ActionButton
-                wid={110}
-                hei={32}
-                color="#B5C401"
-                backColor="#B5C401"
-                execute={completeGameHandler}
-              >
-                Complet Game
-              </ActionButton>
-              <ActionButton
-                wid={87}
-                hei={32}
-                color="#B5C401"
-                backColor="#B5C401"
-                execute={clearGameHandler}
-              >
-                Clear Game
-              </ActionButton>
-              <ActionButton
-                wid={122}
-                hei={32}
-                color="#B5C401"
-                backColor="#B5C401"
-                icon={true}
-                iconName="cart-outline"
-                execute={addGameToCartHandler}
-              >
-                Add to Cart
-              </ActionButton>
-            </>
-          )}
-        </View>
-      </View>
 
+          <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 10 }}>
+            {chosedNumbers.length > 0 && (
+              <>
+                <ActionButton
+                  wid={110}
+                  hei={32}
+                  color="#B5C401"
+                  backColor="#B5C401"
+                  execute={completeGameHandler}
+                >
+                  Complet Game
+                </ActionButton>
+                <ActionButton
+                  wid={87}
+                  hei={32}
+                  color="#B5C401"
+                  backColor="#B5C401"
+                  execute={clearGameHandler}
+                >
+                  Clear Game
+                </ActionButton>
+                <ActionButton
+                  wid={122}
+                  hei={32}
+                  color="#B5C401"
+                  backColor="#B5C401"
+                  icon={true}
+                  iconName="cart-outline"
+                  execute={addGameToCartHandler}
+                >
+                  Add to Cart
+                </ActionButton>
+              </>
+            )}
+          </View>
+          <View
+            style={{
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <TouchableOpacity onPress={() => setShowGameInfo(false)}>
+              <View
+                style={{
+                  height: 6,
+                  width: 36,
+                  backgroundColor: "#C1C1C1",
+                  borderRadius: 5,
+                  marginBottom: 10,
+                }}
+              ></View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
       <ScrollView style={{ flex: 1 }}>
         <View
           style={{
-            marginTop: 450,
+            marginTop: 470,
             marginBottom: 100,
             width: "100%",
             marginLeft: 20,
