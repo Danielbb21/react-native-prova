@@ -392,7 +392,7 @@ const Bet = () => {
                 <FilterGameButtons
                   isNewGame={true}
                   chose={setFilterHandler.bind(null, game.type)}
-                  key={game.id}
+                  key={Math.random().toString()}
                   color={game.color}
                   name={game.type}
                   isClicked={false}

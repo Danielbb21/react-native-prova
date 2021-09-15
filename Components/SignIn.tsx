@@ -108,13 +108,15 @@ const SignIn = () => {
         const token = response.data.token;
 
         dispatch(login(token));
-
+        console.log('token', token);
         dispatch(getGameData(token));
-        fetchData(1);
+        fetchData(1, [''],token);
         // setPageChosed(0);
         dispatch(getUserInfo(token));
+        if(!isLoading){
 
-        navigation.navigate("teste");
+          navigation.navigate("teste");
+        }
 
         return true;
       })

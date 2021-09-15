@@ -15,6 +15,8 @@ import Number, { NumberChosed } from "./Number";
 import { api } from "../api";
 import useApi from "../hooks/use-api";
 const { PRIMARY_COLOR } = colors;
+import * as Progress from "react-native-progress";
+import { StatusBar } from "expo-status-bar";
 
 interface CartObj {
   maxNumber: number;
@@ -83,23 +85,25 @@ const FilterGame = () => {
   const [teste, setTeste] = useState<Bets[]>([]);
   const data = teste.map((t) => t.data);
 
-  const { betsData, fetchData, isLoading } = useApi();
+  const { betsData, fetchData, isLoading, finish } = useApi();
   const [pageChosed, setPageChosed] = useState<number>();
-  console.log("Game", gameFilters);
-  console.log("teste", teste);
+  const [data1, setData1] = useState(betsData?.data);
   // useEffect(() => {
   //   setBetGame(bets);
   // }, [bets]);
 
   useEffect(() => {
-    dispatch(getGameData(token));
     fetchData(1);
- 
+  }, [fetchData]);
+  useEffect(() => {
+    console.log("aquiii");
+    dispatch(getGameData(token));
+    // fetchData(1);
+
     setPageChosed(0);
     dispatch(getUserInfo(token));
   }, [token, dispatch, fetchData]);
-  
-  console.log("bets", bets);
+
   useEffect(() => {
     console.log("GAME_ID", gameId);
     fetchData(0, gameId);
@@ -153,6 +157,7 @@ const FilterGame = () => {
         });
       }
     }
+
     if (!gameFind) {
       setGameFilters((previus) => {
         const array = [...previus];
@@ -168,21 +173,31 @@ const FilterGame = () => {
   };
   let allPages: number[] = [];
 
-  if(betsData?.lastPage){
-    
+  if (betsData?.lastPage) {
     for (let i = 0; i < betsData.lastPage; i++) {
       allPages.push(i);
     }
   }
- 
+
   const changePage = (page: number) => {
     console.log("PAGE", page + 1);
     setPageChosed(page);
     fetchData(page, gameId);
   };
+  const formatApiDate = (date: string) => {
+    const dateString = date.split("T");
+    const data = dateString[0].split("-");
+    const day = data[2];
+    const month = data[1];
+    const year = data[0];
+
+    return `${day}/${month}/${year}`;
+  };
+  const arr = betsData?.data;
+  console.log('INIT ', betsData?.data, isLoading);
   return (
     <View style={{ top: 100, marginLeft: 20, flex: 1, opacity: 0.95 }}>
-      <View style={{   width: "100%" }}>
+      <View style={{ width: "100%" }}>
         <Text
           style={{
             fontSize: 22,
@@ -227,6 +242,43 @@ const FilterGame = () => {
       </View>
 
       <View style={{ height: 400 }}>
+      {isLoading && (
+        <View
+          style={{
+            position: "absolute",
+            zIndex: 11418418,
+            opacity: 1,
+            flex: 1,
+            height: "100%",
+            width: "100%",
+            backgroundColor: "#fff",
+            backfaceVisibility: "visible",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Progress.Circle
+            size={100}
+            indeterminate={true}
+            color="#B5C401"
+            thickness={2}
+          />
+
+          <StatusBar style="auto" />
+        </View>
+      )}
+        { arr?.length === 0 && !isLoading && (
+          <View
+            style={{
+              height: "100%",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style ={{fontSize: 20, fontWeight: 'bold', fontStyle: 'italic'}}>No Game found</Text>
+          </View>
+        )}
         <ScrollView>
           {betsData &&
             betsData.data &&
@@ -259,7 +311,7 @@ const FilterGame = () => {
                         fontWeight: "normal",
                       }}
                     >
-                      {bet.game_date} - (R${" "}
+                      {formatApiDate(bet.game_date)} - (R${" "}
                       {bet.price.toFixed(2).toString().replace(".", ",")})
                     </Text>
                   </View>
