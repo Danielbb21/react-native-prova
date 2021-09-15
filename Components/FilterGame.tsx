@@ -94,9 +94,11 @@ const FilterGame = () => {
   useEffect(() => {
     dispatch(getGameData(token));
     fetchData(1);
+ 
     setPageChosed(0);
     dispatch(getUserInfo(token));
   }, [token, dispatch, fetchData]);
+  
   console.log("bets", bets);
   useEffect(() => {
     console.log("GAME_ID", gameId);
@@ -167,6 +169,7 @@ const FilterGame = () => {
   let allPages: number[] = [];
 
   if(betsData?.lastPage){
+    
     for (let i = 0; i < betsData.lastPage; i++) {
       allPages.push(i);
     }
@@ -338,7 +341,7 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     flexDirection: "row",
     position: "absolute",
-    bottom: 5,
+    bottom: 25,
     right: 10,
   },
   pageChanger: {
