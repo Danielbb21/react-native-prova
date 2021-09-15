@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -25,8 +25,46 @@ import { StatusBar } from "expo-status-bar";
 import * as Progress from "react-native-progress";
 const { BORDER_COLOR, PRIMARY_COLOR } = colors;
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
-
+import { Dimensions, ScrollView } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  interpolate,
+  Extrapolate,
+  withTiming,
+} from "react-native-reanimated";
+import Splash from '../assets/splashprova.png';
 const SignIn = () => {
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+
+  const splashAnimation = useSharedValue(0);
+
+  const brandStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: interpolate(
+            splashAnimation.value,
+            [0, 10, 20, 45, 60],
+            [520, 520, 100, 100, -1100],
+            Extrapolate.CLAMP
+          ),
+        },
+      ],
+      width: windowWidth,
+      height: windowHeight,
+    };
+  });
+
+  const [isLoadingImage, setIsLoadingImage] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoadingImage(false);
+    }, 4000);
+    splashAnimation.value = withTiming(60, { duration: 5000 });
+  }, []);
   const icon = "eye";
   const [hidePassword, setHidePassword] = useState<boolean>(true);
   const navigation = useNavigation<authScreenProp>();
@@ -108,13 +146,12 @@ const SignIn = () => {
         const token = response.data.token;
 
         dispatch(login(token));
-        console.log('token', token);
+        console.log("token", token);
         dispatch(getGameData(token));
-        fetchData(1, [''],token);
+        fetchData(1, [""], token);
         // setPageChosed(0);
         dispatch(getUserInfo(token));
-        if(!isLoading){
-
+        if (!isLoading) {
           navigation.navigate("teste");
         }
 
@@ -153,6 +190,21 @@ const SignIn = () => {
 
   return (
     <>
+      {isLoadingImage && (
+        <View
+          style={{
+            backgroundColor: '#fff',
+            opacity: .9,
+            zIndex: 10,
+            position: "absolute",
+          }}
+        >
+          <Animated.Image
+            source={require("../assets/splashprova.png")}
+            style={brandStyle}
+          />
+        </View>
+      )}
       {isLoading && (
         <View
           style={{

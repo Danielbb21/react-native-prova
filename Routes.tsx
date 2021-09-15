@@ -108,7 +108,7 @@ const T2 = () => {
                     alignItems: "center",
                     backgroundColor: "#B5C300",
                     borderRadius: 50,
-                    marginBottom: 20,
+                    marginBottom: 5,
                     borderWidth: 5,
                     borderColor: "#fff",
                     shadowColor: "#000",

@@ -157,7 +157,7 @@ const UpdateUser = () => {
         textContentType="password"
         secureTextEntry={true}
         style={styles.mainInput}
-        placeholder="Confirm New Password"
+        placeholder="Confirm Password"
       ></TextInput>
       <TouchableOpacity onPress={save} style = {styles.butons}>
         <Text style ={{color: '#fff'}}>Save Changes</Text>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   mainInput: {
-    maxWidth: "100%",
+    maxWidth: 500,
 
     height: 70,
     borderBottomColor: "#DDDDDD",

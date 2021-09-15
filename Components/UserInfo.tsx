@@ -90,7 +90,7 @@ const UserInfo = () => {
             ? "Number of games per game type"
             : "Value spent in each type of game"}
         </Text>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View>
             {userGameInfo &&
               userGameInfo.map((user) => {

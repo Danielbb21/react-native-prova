@@ -87,7 +87,7 @@ const FilterGame = () => {
 
   const { betsData, fetchData, isLoading, finish } = useApi();
   const [pageChosed, setPageChosed] = useState<number>();
-  const [data1, setData1] = useState(betsData?.data);
+  // const [data1, setData1] = useState(betsData?.data);
   // useEffect(() => {
   //   setBetGame(bets);
   // }, [bets]);
@@ -193,8 +193,8 @@ const FilterGame = () => {
 
     return `${day}/${month}/${year}`;
   };
-  const arr = betsData?.data;
-  console.log('INIT ', betsData?.data, isLoading);
+  const arr = betsData?.data?  betsData.data: [];
+  // console.log('INIT ', betsData?.data, isLoading);
   return (
     <View style={{ top: 100, marginLeft: 20, flex: 1, opacity: 0.95 }}>
       <View style={{ width: "100%" }}>
@@ -242,17 +242,14 @@ const FilterGame = () => {
       </View>
 
       <View style={{ height: 400 }}>
-      {isLoading && (
+      {isLoading && betsData?.data && betsData.data.length === 0 && (
         <View
           style={{
             position: "absolute",
             zIndex: 11418418,
-            opacity: 1,
-            flex: 1,
-            height: "100%",
-            width: "100%",
-            backgroundColor: "#fff",
-            backfaceVisibility: "visible",
+           
+            
+            
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -267,7 +264,7 @@ const FilterGame = () => {
           <StatusBar style="auto" />
         </View>
       )}
-        { arr?.length === 0 && !isLoading && (
+        { arr?.length === 0 && !isLoading &&  gameFilters.length === 0 && finish && (
           <View
             style={{
               height: "100%",
@@ -281,7 +278,7 @@ const FilterGame = () => {
         )}
         <ScrollView>
           {betsData &&
-            betsData.data &&
+            betsData?.data &&
             betsData?.data.map((bet) => {
               return (
                 <View
