@@ -107,7 +107,7 @@ const Cart: React.FC<CartProps> = (props) => {
           CART
         </Text>
       </TouchableOpacity>
-      <View style={{ maxHeight: 300 }}>
+      <View style={{ maxHeight: 250 }}>
         <ScrollView>
           {props.items.length > 0 &&
             props.items.map((cartElement) => {
@@ -186,7 +186,7 @@ const Cart: React.FC<CartProps> = (props) => {
         <View
           style={{
             position: "absolute",
-            top: 350,
+            top: 300,
             width: "80%",
             flexDirection: "row",
             justifyContent: "space-between",
@@ -213,9 +213,9 @@ const Cart: React.FC<CartProps> = (props) => {
         <TouchableOpacity
           style={{
             position: "absolute",
-            top: 410,
+            top: 350,
             width: 245,
-            height: 94,
+            height: 120,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "#EBEBEB",
