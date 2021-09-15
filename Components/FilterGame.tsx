@@ -240,8 +240,29 @@ const FilterGame = () => {
             })}
         </View>
       </View>
-
+            
       <View style={{ height: 400 }}>
+      {isLoading &&(
+               <View
+               style={{
+                 position: "absolute",
+                 
+                 height: '100%',
+                 width: "100%",
+                 backgroundColor: "#fff",
+                 opacity: 1,
+                 justifyContent: "center",
+                 alignItems: "center",
+               }}
+             >
+               <Progress.Circle
+               size={100}
+               indeterminate={true}
+               color="#B5C401"
+               thickness={2}
+             />
+             </View>
+            )}
       {isLoading && betsData?.data && betsData.data.length === 0 && (
         <View
           style={{
