@@ -90,11 +90,11 @@ const FilterGame = () => {
   // const [data1, setData1] = useState(betsData?.data);
   useEffect(() => {
     fetchData(0, gameId);
-    console.log('AQUIII');
+    console.log("AQUIII");
   }, [bets, fetchData]);
 
   useEffect(() => {
-    console.log('INIT');
+    console.log("INIT");
     fetchData(1);
   }, [fetchData]);
   useEffect(() => {
@@ -195,7 +195,7 @@ const FilterGame = () => {
 
     return `${day}/${month}/${year}`;
   };
-  const arr = betsData?.data?  betsData.data: [];
+  const arr = betsData?.data ? betsData.data : [];
   // console.log('INIT ', betsData?.data, isLoading);
   return (
     <View style={{ top: 100, marginLeft: 20, flex: 1, opacity: 0.95 }}>
@@ -215,36 +215,40 @@ const FilterGame = () => {
           Filters
         </Text>
         <View style={styles.buttons}>
-          {allGames.length > 0 &&
-            allGames.map((game) => {
-              if (gameFilters.find((g) => g === game.type)) {
-                return (
-                  <FilterGameButtons
-                    isNewGame={false}
-                    chose={setFilterHandler.bind(null, game.type)}
-                    key={game.id}
-                    color={game.color}
-                    name={game.type}
-                    isClicked={true}
-                  />
-                );
-              }
-              return (
-                <FilterGameButtons
-                  isNewGame={false}
-                  chose={setFilterHandler.bind(null, game.type)}
-                  key={game.id}
-                  color={game.color}
-                  name={game.type}
-                  isClicked={false}
-                />
-              );
-            })}
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={{ flexDirection: "row", width: "100%", padding: 10 }}>
+              {allGames.length > 0 &&
+                allGames.map((game) => {
+                  if (gameFilters.find((g) => g === game.type)) {
+                    return (
+                      <FilterGameButtons
+                        isNewGame={false}
+                        chose={setFilterHandler.bind(null, game.type)}
+                        key={game.id}
+                        color={game.color}
+                        name={game.type}
+                        isClicked={true}
+                      />
+                    );
+                  }
+                  return (
+                    <FilterGameButtons
+                      isNewGame={false}
+                      chose={setFilterHandler.bind(null, game.type)}
+                      key={game.id}
+                      color={game.color}
+                      name={game.type}
+                      isClicked={false}
+                    />
+                  );
+                })}
+            </View>
+          </ScrollView>
         </View>
       </View>
-            
+
       <View style={{ height: 400 }}>
-      {/* {isLoading &&(
+        {/* {isLoading &&(
                <View
                style={{
                  position: "absolute",
@@ -265,29 +269,29 @@ const FilterGame = () => {
              />
              </View>
             )} */}
-      {isLoading && (
-        <View
-          style={{
-            position: "absolute",
-            zIndex: 11418418,
-            width: '100%',
-            height: '100%',
-            
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Progress.Circle
-            size={100}
-            indeterminate={true}
-            color="#B5C401"
-            thickness={2}
-          />
+        {isLoading && (
+          <View
+            style={{
+              position: "absolute",
+              zIndex: 11418418,
+              width: "100%",
+              height: "100%",
 
-          <StatusBar style="auto" />
-        </View>
-      )}
-        { arr?.length === 0 && !isLoading  && finish && (
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Progress.Circle
+              size={100}
+              indeterminate={true}
+              color="#B5C401"
+              thickness={2}
+            />
+
+            <StatusBar style="auto" />
+          </View>
+        )}
+        {arr?.length === 0 && !isLoading && finish && (
           <View
             style={{
               height: "100%",
@@ -296,7 +300,11 @@ const FilterGame = () => {
               alignItems: "center",
             }}
           >
-            <Text style ={{fontSize: 20, fontWeight: 'bold', fontStyle: 'italic'}}>No Game found</Text>
+            <Text
+              style={{ fontSize: 20, fontWeight: "bold", fontStyle: "italic" }}
+            >
+              No Game found
+            </Text>
           </View>
         )}
         <ScrollView>
@@ -391,7 +399,7 @@ export default FilterGame;
 const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
-    width: "100%",
+    maxWidth: "100%",
     alignItems: "center",
     justifyContent: "space-evenly",
     flexWrap: "wrap",

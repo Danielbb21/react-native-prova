@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingRight: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
+    marginRight:10 
   },
   text: {
     fontSize: 14,
