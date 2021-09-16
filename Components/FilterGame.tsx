@@ -265,13 +265,13 @@ const FilterGame = () => {
              />
              </View>
             )} */}
-      {isLoading && betsData?.data && betsData.data.length === 0 && (
+      {isLoading && (
         <View
           style={{
             position: "absolute",
             zIndex: 11418418,
-           
-            
+            width: '100%',
+            height: '100%',
             
             justifyContent: "center",
             alignItems: "center",
