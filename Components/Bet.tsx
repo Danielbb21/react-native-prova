@@ -549,7 +549,7 @@ const Bet = () => {
       <ScrollView style={{ flex: 1 }}>
         <View
           style={{
-            marginTop: 470,
+            marginTop: 480,
             marginBottom: 100,
             width: "100%",
             marginLeft: 20,
