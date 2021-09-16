@@ -412,11 +412,11 @@ const Bet = () => {
             {games.map((game) => {
               if (filter === game.type) {
                 return (
-                  <View style={{ padding: 5 }}>
+                  <View style={{ padding: 5 }} key = {Math.random().toString()}>
                     <FilterGameButtons
                       isNewGame={true}
                       chose={setFilterHandler.bind(null, game.type)}
-                      key={game.id}
+                      key={Math.random().toString()}
                       color={game.color}
                       name={game.type}
                       isClicked={true}
@@ -425,7 +425,7 @@ const Bet = () => {
                 );
               } else {
                 return (
-                  <View style={{ padding: 5 }}>
+                  <View style={{ padding: 5 }} key={Math.random().toString()}>
                     <FilterGameButtons
                       isNewGame={true}
                       chose={setFilterHandler.bind(null, game.type)}
