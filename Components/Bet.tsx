@@ -5,8 +5,10 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  
 } from "react-native";
-import Toast from "react-native-toast-message";
+import Modal from 'react-native-modal';
+import Toast  from "react-native-toast-message";
 import { getGameData } from "../store/GameSlice";
 import { useAppDispatch } from "../store/store";
 import { useAppSelector } from "../store/store-hooks";
@@ -336,11 +338,25 @@ const Bet = () => {
   };
   return (
     <>
-      {showCartElement && (
+        
+         <Modal
+          style={{
+            margin: 0,
+          }}
+          isVisible={showCartElement}
+          hasBackdrop={true}
+          backdropColor="#fff"
+          backdropOpacity={0.7}
+          animationIn="slideInRight"
+          animationOut="slideOutRight"
+          swipeDirection="right"
+          useNativeDriver
+          hideModalContentWhileAnimating
+       >
         <View
           style={{
-            backgroundColor: "#FFFFFF",
-            opacity: 0.8,
+            
+
             zIndex: 151581,
             width: "100%",
             height: "100%",
@@ -348,7 +364,8 @@ const Bet = () => {
         >
           <Cart onRemove={removeItem} items={cartNumbers} onSave={saveBets} />
         </View>
-      )}
+        </Modal>
+        
       {!showGameInfo && (
         <View style={{ width: '100%', justifyContent: 'center', height: 100, alignItems: 'center', top: 80, zIndex:8484, marginTop: 10 }}>
           <TouchableOpacity onPress={() => setShowGameInfo(true)} >

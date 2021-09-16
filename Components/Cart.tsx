@@ -5,11 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Modal
 } from "react-native";
 import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { api } from "../api";
-import { hideCartComponent } from "../store/CartShowSlice";
+import { hideCartComponent, showCartComponent } from "../store/CartShowSlice";
 import { getBetData } from "../store/CartSlice";
 import { useAppDispatch, useAppSelector } from "../store/store-hooks";
 import ActionButton from "./ActionButton";
@@ -53,6 +54,7 @@ const Cart: React.FC<CartProps> = (props) => {
 
     return `${year}-${month}-${day} ${date.toLocaleTimeString()}`;
   };
+  const isShow = useAppSelector(state => state.showCart.showComponent)
 
   const saveGame = () => {
     // if (totalPrice < 30) {
@@ -84,6 +86,7 @@ const Cart: React.FC<CartProps> = (props) => {
   };
 
   return (
+    
     <View style={styles.cartContainer}>
       <TouchableOpacity
         onPress={closeCart}
@@ -238,20 +241,23 @@ const Cart: React.FC<CartProps> = (props) => {
         </TouchableOpacity>
       </View>
     </View>
+    
+    
   );
 };
 export default Cart;
 
 const styles = StyleSheet.create({
+
   cartContainer: {
-    position: "absolute",
-    right: 0,
-    top: 15,
-    opacity: 1,
-    height: "100%",
-    width: 265,
+    position: 'absolute',
+    right: 10,
+    
+    
+    height: "85%",
+    width: 250,
     zIndex: 185181,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFFFFF"
   },
   betInfo: {
     paddingLeft: 14,
