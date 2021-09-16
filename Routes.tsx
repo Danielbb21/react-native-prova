@@ -200,10 +200,13 @@ const T2 = () => {
         //     </View>
         //   ),
         // })}
+        
         options={{
           headerShown: false,
           // title: '',
           // tabBarButton: (props) => <HomeButton {...props} text="home" />,
+          tabBarActiveTintColor: '#707070',
+          
         }}
       />
       <Tab.Screen
@@ -214,7 +217,7 @@ const T2 = () => {
       <Tab.Screen
         name="Account"
         component={Account}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, tabBarActiveTintColor: '#707070', }}
       />
     </Tab.Navigator>
   );
