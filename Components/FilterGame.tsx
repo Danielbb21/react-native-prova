@@ -88,11 +88,13 @@ const FilterGame = () => {
   const { betsData, fetchData, isLoading, finish } = useApi();
   const [pageChosed, setPageChosed] = useState<number>();
   // const [data1, setData1] = useState(betsData?.data);
-  // useEffect(() => {
-  //   setBetGame(bets);
-  // }, [bets]);
+  useEffect(() => {
+    fetchData(0, gameId);
+    console.log('AQUIII');
+  }, [bets, fetchData]);
 
   useEffect(() => {
+    console.log('INIT');
     fetchData(1);
   }, [fetchData]);
   useEffect(() => {
@@ -242,7 +244,7 @@ const FilterGame = () => {
       </View>
             
       <View style={{ height: 400 }}>
-      {isLoading &&(
+      {/* {isLoading &&(
                <View
                style={{
                  position: "absolute",
@@ -262,7 +264,7 @@ const FilterGame = () => {
                thickness={2}
              />
              </View>
-            )}
+            )} */}
       {isLoading && betsData?.data && betsData.data.length === 0 && (
         <View
           style={{
@@ -285,7 +287,7 @@ const FilterGame = () => {
           <StatusBar style="auto" />
         </View>
       )}
-        { arr?.length === 0 && !isLoading &&  gameFilters.length === 0 && finish && (
+        { arr?.length === 0 && !isLoading  && finish && (
           <View
             style={{
               height: "100%",
