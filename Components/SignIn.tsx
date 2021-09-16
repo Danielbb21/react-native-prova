@@ -47,7 +47,7 @@ const SignIn = () => {
           translateY: interpolate(
             splashAnimation.value,
             [0, 10, 20, 45, 60],
-            [520, 520, 100, 100, -1100],
+            [520, 400, 100, -100, -1100],
             Extrapolate.CLAMP
           ),
         },

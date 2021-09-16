@@ -61,7 +61,7 @@ const Reset = () => {
           });
           
           cleanEmail();
-          navigation.navigate('Home');
+          navigation.navigate('Auth');
         })
         .catch(err => {
           console.log(err.message);

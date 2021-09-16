@@ -100,7 +100,7 @@ const Register = () => {
         cleanPassword();
         cleanEmail();
         cleanName();
-        navigation.navigate('Home');
+        navigation.navigate('Auth');
       })
       .catch((err) => {
         console.log(err.message);
